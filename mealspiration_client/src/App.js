@@ -12,6 +12,7 @@ function App() {
     })
   }
 
+  // sendUser
   const sendUser = (email, favorited_items, username, password) => {
     axios.post('mealspiration_api/users/', {
       email: email,
