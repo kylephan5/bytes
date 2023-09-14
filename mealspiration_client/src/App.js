@@ -34,7 +34,7 @@ function App() {
       <h1> Hello</h1>
       <button onClick={sendRequest}>Click me to send a request</button>
       <button onClick={() => getSpecific(2)}>Get a specific item</button>
-      <button onClick={() => sendUser('jaynephan@msn.com', null, 'jaynephan', 'test123')}>Click me to send a user</button>
+      <button onClick={() => sendUser('kphan2@nd.edu', null, 'kdp', 'test123')}>Click me to send a user</button>
     </div>
   );
 }
