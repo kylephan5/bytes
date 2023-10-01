@@ -4,3 +4,4 @@ virtualenv
 *.pyd
 __pycache__/
 *.sqlite3
+.env
