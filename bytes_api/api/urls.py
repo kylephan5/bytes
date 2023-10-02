@@ -15,14 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from mealspiration.views import CustomUsersViewset
+from bytes.views import CustomUsersViewset
 from rest_framework.routers import DefaultRouter
 
 router=DefaultRouter()
 
-router.register('mealspiration_api/users', CustomUsersViewset)
+router.register('users', CustomUsersViewset)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include(router.urls))
+    path('bytes_api/', include(router.urls))
 ]

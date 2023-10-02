@@ -1,0 +1,16 @@
+asgiref==3.7.2
+Cython==0.29.36
+distlib==0.3.7
+Django==4.2.5
+django-cors-headers==4.2.0
+djangorestframework==3.14.0
+filelock==3.12.4
+gunicorn==21.2.0
+mysqlclient==2.1.1
+packaging==23.1
+platformdirs==3.10.0
+python-dotenv==1.0.0
+pytz==2023.3.post1
+PyYAML==6.0.1
+sqlparse==0.4.4
+virtualenv==20.24.5

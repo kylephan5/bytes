@@ -1,4 +1,4 @@
-virtualenv
+bytes_api/virtualenv
 *.pyc
 *.pyo
 *.pyd
