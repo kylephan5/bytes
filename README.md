@@ -1,28 +1,16 @@
 # bytes!
 
-### download virtualenv
+*** Currently a work in progress! ***
 
-`pip3 install virtualenv`
+This a project we're working on that will allow users to find meals based on the current ingredients that they have!
 
-### make sure you do this in the root directory!
+Our tech stack:
 
-`python3 -m venv [NAME-OF-VIRTUALENV]`
-
-`source [NAME-OF-VIRTUALENV]/bin/activate`
-
-### get required packages/dependencies
-
-`pip freeze > requirements.txt`
-
-### steps to starting up local environment, starts backend
-`cd mealspiration_api`
-
-`python3 manage.py runserver`
-
-### steps to starting up local environment, starts frontend
-`cd ../mealspiration_client`
-
-`npm run start`
+- React.js -> frontend
+- Django REST Framework -> backend
+- Nginx -> server
+- MySQL, hosted/managed on AWS RDS -> database
+- Deployed here
 
 
 

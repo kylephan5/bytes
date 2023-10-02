@@ -90,10 +90,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'bytes',
-        'USER': 'root',
+        'USER': 'buildingbytes',
         'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': 'localhost',
-        'PORT': '3000',
+        'HOST': 'bytes.c2kae706vp3d.us-east-2.rds.amazonaws.com',
+        'PORT': '3306',
     }
 }
 
