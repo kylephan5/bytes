@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'mealspiration',
+    'bytes',
     'rest_framework',
     'corsheaders',
 ]
@@ -59,7 +59,7 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000'
+    'http://localhost:3000',
 ]
 
 ROOT_URLCONF = 'api.urls'
@@ -101,7 +101,7 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
-AUTH_USER_MODEL = "mealspiration.CustomUser"
+AUTH_USER_MODEL = "bytes.CustomUser"
 
 AUTH_PASSWORD_VALIDATORS = [
     {
