@@ -60,6 +60,7 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
+    '127.0.0.1'
 ]
 
 ROOT_URLCONF = 'api.urls'

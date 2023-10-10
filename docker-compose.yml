@@ -7,6 +7,8 @@ services:
     command: gunicorn api.wsgi --bind 0.0.0.0:8000
     ports:
       - "8000:8000"
+    env_file:
+      - .env
   frontend:
     build:
       context: ./bytes_client
