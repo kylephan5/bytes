@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-v%6ncdql-%7a4vjl3@hde6o%-gf#-6x18fox@1r718il%m^s*k
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -60,8 +60,8 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
-    '127.0.0.1',
-    '127.0.0.1:8000'
+    'http://127.0.0.1',
+    'http://127.0.0.1:8000'
 ]
 
 ROOT_URLCONF = 'api.urls'
@@ -105,21 +105,14 @@ DATABASES = {
 
 AUTH_USER_MODEL = "bytes.CustomUser"
 
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
-
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    )
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/

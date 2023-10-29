@@ -15,14 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from bytes.views import CustomUsersViewset
+from bytes.views import UserRegister, UserLogin, UserLogout, UserView, AllUsers
 from rest_framework.routers import DefaultRouter
-
-router=DefaultRouter()
-
-router.register('users', CustomUsersViewset)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('bytes_api/', include(router.urls))
+    path('register/', UserRegister.as_view()),
+    path('login/', UserLogin.as_view()),
+    path('logout/', UserLogout.as_view()),
+    path('user/', UserView.as_view()),
+    path('users/', AllUsers.as_view({'get': 'list'})),
 ]
