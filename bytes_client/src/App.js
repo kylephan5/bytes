@@ -1,5 +1,13 @@
 import './App.css';
 import axios from 'axios';
+import React from 'react';
+import Navbar from './components/Navbar';
+import Inventory from './components/pages/Inventory';
+import Home from './components/pages/Home';
+import Profile from './components/pages/Profile';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+
 function App() {
   axios.defaults.baseURL = 'http://127.0.0.1:8000/';
 
@@ -36,12 +44,20 @@ const getSpecific = (id) => {
 }
 
   return (
-    <div className="App">
-      <h1> Hello</h1>
-      <button onClick={sendRequest}>Click me to send a request</button>
-      <button onClick={() => getSpecific(2)}>Get a specific item</button>
-      <button onClick={() => sendUser('jaynephan@mgmail.com', 'test123')}>Click me to send a user</button>
-    </div>
+    // <div className="App">
+    //   <h1> Hello</h1>
+    //   <button onClick={sendRequest}>Click me to send a request</button>
+    //   <button onClick={() => getSpecific(2)}>Get a specific item</button>
+    //   <button onClick={() => sendUser('jaynephan@mgmail.com', 'test123')}>Click me to send a user</button>
+    // </div>
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/inventory' element={<Inventory />} />
+        <Route path='/profile' element={<Profile />} />
+      </Routes>
+    </Router>
   );
 }
 
