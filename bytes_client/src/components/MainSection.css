@@ -1,0 +1,38 @@
+.main-container{
+    display: grid;
+    align-items: flex-start;
+    height: 100vh;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    box-sizing: border-box;
+}
+
+.about-container {
+    margin: 20px;
+    grid-column-start: 1;
+    grid-row-start: 1;
+    min-height: 300px;
+    min-width: 450px;
+}
+
+.about-section p{
+    font-size: 20px;
+    text-align: center;
+}
+
+.logo{
+    align-items:center;
+}
+
+.logo img{
+    width: 600px;
+    margin-left: 40px;
+    height: 350px;
+}
+
+.inventory-list{
+    width: 600px;
+    height:auto;
+    border: 10px;
+    padding-left: 1000px;
+}
