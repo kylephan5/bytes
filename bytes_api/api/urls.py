@@ -30,5 +30,4 @@ urlpatterns = [
     path('bytes_api/logout/', UserLogout.as_view()),
     path('bytes_api/profile/', ProfileView.as_view()),
     path('bytes_api/change_password/', UserChangePassword.as_view())
-    # path('users/', AllUsers.as_view({'get': 'list'})),
 ]
