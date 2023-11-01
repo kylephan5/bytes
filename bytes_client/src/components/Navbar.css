@@ -35,6 +35,7 @@
     text-align: center;
     width: 80vw;
     justify-content: flex-end;
+    padding-bottom: 20px;
 }
 
 .nav-item {
