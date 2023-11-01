@@ -1,31 +1,63 @@
 /* Apply styles to the form container */
 .login-form {
-    width: 300px;
-    margin: 0 auto;
-    margin-top: 100px;
-  }
-  
-  /* Style the "Login" and "Password" labels as headers */
-  .form-label {
-    font-size: 20px;
-    font-weight: bold;
-    margin-top: 10px;
-    margin-bottom: 5px;
-  }
-  
-  /* Apply styles to the input fields and the submit button */
-  .form-control {
-    margin-bottom: 10px;
-  }
-  
-  /* Center the text for the checkbox */
-  .checkbox-label {
-    display: flex;
-    align-items: center;
-  }
-  
-  /* Apply styles to the submit button */
-  .login-button {
-    margin-top: 20px;
-  }
-  
+  width: 400px;
+  margin: 0 auto;
+  margin-top: 100px;
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  height: 250px;
+}
+
+/* Style the "Login" and "Password" labels as headers */
+.form-label {
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+/* Apply styles to the input fields and the submit button */
+.form-control {
+  margin-top: 5px;
+  padding: 12px;
+  width: 90%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+.login-button {
+  margin-top: 20px;
+  background-color: #0a740e;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.login-button:hover {
+  background-color: #38833a;
+}
+
+/* Forgot Password Button */
+.forgot-password-button {
+  color: #007BFF;
+  font-size: 16px;
+  padding-left: 30px;
+}
+
+.forgot-password-button:hover {
+  transition: background-color 0.3s;
+  cursor: pointer;
+  color: #614181;
+}
+
+/* Center the text for the checkbox */
+.checkbox-label {
+  display: flex;
+  align-items: center;
+}
