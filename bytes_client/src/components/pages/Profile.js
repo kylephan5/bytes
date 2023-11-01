@@ -22,9 +22,9 @@ function Profile() {
     <>
       <div>Profile Page</div>
         <div>{email}</div>
-        {/* <button onClick={userLogout}>
-
-        </button> */}
+        {<button onClick={userLogout}>
+            Logout
+        </button>}
     </>
   )
 }

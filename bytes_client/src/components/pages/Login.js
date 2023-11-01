@@ -17,18 +17,18 @@ function Signup() {
       [name]: value,
     });
   }
-
-  const changePassword = (old_password, new_password, confirm_password) => {
-    axios.put('change_password/', {
-      old_password: old_password,
-      new_password: new_password,
-      confirm_password: confirm_password,
-    }).then(function (response) {
-      console.log(response);
-    }).catch(function (error) {
-      console.error(error);
-    })
-  }
+  //
+  // const changePassword = (old_password, new_password, confirm_password) => {
+  //   axios.put('change_password/', {
+  //     old_password: old_password,
+  //     new_password: new_password,
+  //     confirm_password: confirm_password,
+  //   }).then(function (response) {
+  //     console.log(response);
+  //   }).catch(function (error) {
+  //     console.error(error);
+  //   })
+  // }
 
   const userLogin = (event) => {
     event.preventDefault();
