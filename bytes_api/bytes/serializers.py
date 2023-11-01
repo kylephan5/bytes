@@ -24,12 +24,17 @@ class UserLoginSerializer(serializers.Serializer):
         user = authenticate(username=validated_data['email'], password=validated_data['password'])
 
         if not user:
-            raise ValueError('user not found')
+            raise ValueError('Password incorrect, or user does not exist.')
 
         return user
+
+class ChangeUserPasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
+    confirm_password = serializers.CharField(required=True)
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ('id', 'email', 'password')
+        fields = ('id', 'email')

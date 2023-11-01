@@ -1,66 +1,32 @@
 import './App.css';
-import axios from 'axios';
 import React from 'react';
 import Navbar from './components/Navbar';
 import Inventory from './components/pages/Inventory';
 import Home from './components/pages/Home';
 import Profile from './components/pages/Profile';
 import Login from './components/pages/Login';
+import Signup from "./components/pages/Signup";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import axios from "axios";
 
 
 function App() {
-  axios.defaults.baseURL = 'http://127.0.0.1:8000/';
-
-  const sendRequest = () => {
-    axios.get('users/', {
-        format: 'json',
-    })
-    .then(function (response) {
-      console.log(response);
-    }).catch(function(response) {
-      console.log(response);
-    })
-  }
-
-  // sendUser
-  const sendUser = (email, password) => {
-    axios.post('register/', {
-      email: email,
-      password: password,
-    })
-  }
-
-const getSpecific = (id) => {
-  axios.get(`users/`, {
-    params: { id: id },
-    headers: { 'Content-Type': 'application/json' } // You can specify the request headers here
-  })
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.error(error);
-    });
-}
-
-  return (
-    // <div className="App">
-    //   <h1> Hello</h1>
-    //   <button onClick={sendRequest}>Click me to send a request</button>
-    //   <button onClick={() => getSpecific(2)}>Get a specific item</button>
-    //   <button onClick={() => sendUser('jaynephan@mgmail.com', 'test123')}>Click me to send a user</button>
-    // </div>
-    <Router>
-      <Navbar />
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/inventory' element={<Inventory />} />
-        <Route path='/profile' element={<Profile />} />
-        <Route path='/Login' element={<Login />} />
-      </Routes>
-    </Router>
-  );
+    axios.defaults.xsrfCookieName = 'csrftoken';
+    axios.defaults.xsrfHeaderName = 'X-CSRFToken';
+    axios.defaults.withCredentials = true;
+    axios.defaults.baseURL = 'http://127.0.0.1:8000/bytes_api';
+      return (
+        <Router>
+          <Navbar />
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/inventory' element={<Inventory />} />
+            <Route path='/profile' element={<Profile />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/signup' element={<Signup />} />
+          </Routes>
+        </Router>
+      );
 }
 
 export default App;

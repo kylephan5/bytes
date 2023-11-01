@@ -16,8 +16,8 @@ function Navbar(){
                         <img src='/images/BytesLogo.jpg' alt="Bytes" />
                     </Link>
                     <div className='menu-icon' onClick={toggleMenu}>
-                        {Menuclick ? (<span class="material-symbols-outlined">close</span>)
-                            : (<span class="material-symbols-outlined">menu</span>)}
+                        {Menuclick ? (<span className="material-symbols-outlined">close</span>)
+                            : (<span className="material-symbols-outlined">menu</span>)}
                     </div>
                     <ul className={Menuclick ? 'nav-menu active' : 'nav-menu'}>
                         <li className='nav-item'>
@@ -31,6 +31,9 @@ function Navbar(){
                         </li>
                         <li className='nav-item'>
                             <Link to='/login' className='nav-links' onClick={closemenu}>LOGIN</Link>
+                        </li>
+                        <li className='nav-item'>
+                            <Link to='/signup' className='nav-links' onClick={closemenu}>SIGNUP</Link>
                         </li>
                     </ul>
                 </div>

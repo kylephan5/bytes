@@ -1,6 +1,8 @@
 import React from 'react';
 import '../App.css';
 import './MainSection.css';
+import axios from "axios";
+
 
 function MainSection(){
     return (
