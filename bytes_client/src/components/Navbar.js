@@ -29,6 +29,9 @@ function Navbar(){
                         <li className='nav-item'>
                             <Link to='/profile' className='nav-links' onClick={closemenu}>PROFILE</Link>
                         </li>
+                        <li className='nav-item'>
+                            <Link to='/login' className='nav-links' onClick={closemenu}>LOGIN</Link>
+                        </li>
                     </ul>
                 </div>
             </div>

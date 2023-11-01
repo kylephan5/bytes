@@ -1,0 +1,31 @@
+/* Apply styles to the form container */
+.login-form {
+    width: 300px;
+    margin: 0 auto;
+    margin-top: 100px;
+  }
+  
+  /* Style the "Login" and "Password" labels as headers */
+  .form-label {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 5px;
+  }
+  
+  /* Apply styles to the input fields and the submit button */
+  .form-control {
+    margin-bottom: 10px;
+  }
+  
+  /* Center the text for the checkbox */
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Apply styles to the submit button */
+  .login-button {
+    margin-top: 20px;
+  }
+  
