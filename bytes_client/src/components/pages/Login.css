@@ -51,7 +51,7 @@
 }
 
 .forgot-password-button:hover {
-  transition: background-color 0.3s;
+  transition: 0.3s;
   cursor: pointer;
   color: #614181;
 }
