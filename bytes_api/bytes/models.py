@@ -53,3 +53,63 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.email
 
+'''
+Inventory class: Used to store what items a specific user has
+email: 
+'''  
+class Inventory(models.Model):
+    email = models.EmailField(unique=True)
+    ingredient = models.CharField(max_length=75)
+
+    
+    #gluten_free_bool = models.BooleanField(default=False)
+    #vegitarian_bool = models.BooleanField(default=False)
+    #vegan_bool = models.BooleanField(default=False)
+    #lactose_bool = models.BooleanField(default=False)
+    #nut_free_bool = models.BooleanField(default=False)
+    #shellfish_free_bool = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.email
+
+'''
+Recipe class: Used to store recipe data
+'''
+class Recipe(models.Model):
+    recipe_index = models.IntegerField(default = 0)
+    recipe_name  = models.CharField(max_length=100)
+    recipe_url   = models.CharField(max_length=150)
+    gluten_free_bool = models.BooleanField(default=False)
+    vegitarian_bool = models.BooleanField(default=False)
+    vegan_bool = models.BooleanField(default=False)
+    lactose_bool = models.BooleanField(default=False)
+    nut_free_bool = models.BooleanField(default=False)
+    shellfish_free_bool = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.recipe_index
+
+ '''
+ Recipe_Ingredient: Splits up the NER column of the kaggle data set, used as a join table for inventory and recipe
+ '''   
+class Recipe_Ingredient(model.Models):
+    recipe_index = models.IntegerField(default = 0)
+    recipe_ingredient = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.recipe_index
+    
+'''
+Temporary table for stage 3 demo
+'''
+class Temp_Table(models.Model):
+    recipe_index = models.IntegerField(default = 0)
+    recipe_name  = models.CharField(max_length=100)
+    recipe_url   = models.CharField(max_length=150)
+    recipte_ingredient_list = models.CharField(max_length=500)
+
+    def __str__(self):
+        return self.recipe_index
+
+
+
