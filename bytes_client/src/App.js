@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import Inventory from './components/pages/Inventory';
 import Home from './components/pages/Home';
 import Profile from './components/pages/Profile';
+import Login from './components/pages/Login';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 
@@ -56,6 +57,7 @@ const getSpecific = (id) => {
         <Route path='/' element={<Home />} />
         <Route path='/inventory' element={<Inventory />} />
         <Route path='/profile' element={<Profile />} />
+        <Route path='/Login' element={<Login />} />
       </Routes>
     </Router>
   );
