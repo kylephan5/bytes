@@ -21,7 +21,13 @@ function Profile() {
             new_password: newPassword,
             confirm_password: confirmNewPassword,
         }).then(function (response) {
-            console.log(response);
+            axios.post('login/', {
+                email: email,
+                password: newPassword,
+            }).then(function (response) {
+                console.log('signed in!');
+            })
+
         }).catch(function (error) {
             console.error(error);
         });

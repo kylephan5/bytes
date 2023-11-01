@@ -1,6 +1,6 @@
 .navbar {
     background: #0a740e;
-    height: 120px;
+    height: 100px;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
@@ -9,32 +9,20 @@
     top: 0;
     z-index: 999;
 }
-    
+
 .navbar-container {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.navbar-logo {
-    position: relative;
-    padding-left: 175px;
-}
-
-.navbar-logo img {
-    width: 150px;
-    height: 90px;
-    cursor: pointer;
-}
-
 .nav-menu {
     display: flex;
     column-gap: 30px;
     list-style: none;
-    padding-right: 150px;
+    padding-right: 300px;
     text-align: center;
     width: 80vw;
-    justify-content: flex-end;
     padding-bottom: 20px;
 }
 
@@ -43,6 +31,7 @@
 }
 
 .nav-links {
+    font-family: 'Red Hat Display', sans-serif;
     color: #fff;
     display: flex;
     align-items: center;
@@ -70,95 +59,93 @@
 }
 
 @media screen and (max-width: 960px) {
-.navbar {
-    position: relative;
-}
+    .navbar {
+        position: relative;
+    }
 
-.nav-menu {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 100%;
-    height: 90vh;
-    position: absolute;
-    top: 100px;
-    left: -100%;
-    opacity: 1;
-    transition: all 0.5s ease;
-}
+    .nav-menu {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 100%;
+        height: 90vh;
+        position: absolute;
+        top: 100px;
+        left: -100%;
+        opacity: 1;
+        transition: all 0.5s ease;
+    }
 
-.nav-menu.active {
-    background: #242222;
-    left: 0;
-    opacity: 1;
-    transition: all 0.5s ease;
-    z-index: 1;
-}
+    .nav-menu.active {
+        background: #242222;
+        left: 0;
+        opacity: 1;
+        transition: all 0.5s ease;
+        z-index: 1;
+    }
 
-.nav-links {
-    text-align: center;
-    padding: 2rem 0;
-    width: 100%;
-    display: table;
-}
+    .nav-links {
+        text-align: center;
+        padding: 2rem 0;
+        width: 100%;
+        display: table;
+    }
 
-.nav-links:hover {
-    background-color: #fff;
-    color: #242424;
-    border-radius: 0;
-}
+    .nav-links:hover {
+        background-color: #fff;
+        color: #242424;
+        border-radius: 0;
+    }
 
-.navbar-logo {
-    position: absolute;
-    top: 0;
-    left: 10px;
-}
+    .navbar-logo {
+        position: absolute;
+        top: 0;
+        left: 10px;
+    }
 
-.navbar-logo img {
-    width: 150px;
-}
+    /* .navbar-logo img {
+        width: 150px;
+    } */
 
-.menu-icon {
-    display: block;
-    position: absolute;
-    top: 0;
-    right: 0;
-    transform: translate(-100%, 60%);
-    font-size: 1.8rem;
-    cursor: pointer;
-}
+    .menu-icon {
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        transform: translate(-100%, 60%);
+        font-size: 1.8rem;
+        cursor: pointer;
+    }
 
-.nav-links-mobile {
-    display: block;
-    text-align: center;
-    margin: 2rem auto;
-    border-radius: 4px;
-    width: 80%;
-    text-decoration: none;
-    font-size: 1.5rem;
-    background-color: transparent;
-    color: #fff;
-    padding: 14px 20px;
-    border: 1px solid #fff;
-    transition: all 0.3s ease-out;
-}
+    .nav-links-mobile {
+        display: block;
+        text-align: center;
+        margin: 2rem auto;
+        border-radius: 4px;
+        width: 80%;
+        text-decoration: none;
+        font-size: 1.5rem;
+        background-color: transparent;
+        color: #fff;
+        padding: 14px 20px;
+        border: 1px solid #fff;
+        transition: all 0.3s ease-out;
+    }
 
-.nav-links-mobile:hover {
-    background: #fff;
-    color: #242424;
-    transition: 250ms;
-}
+    .nav-links-mobile:hover {
+        background: #fff;
+        color: #242424;
+        transition: 250ms;
+    }
 }
 
 
 @media (max-width: 480px) {
-.navbar{
-    height: 90px;
-}
+    .navbar {
+        height: 90px;
+    }
 
-.navbar-logo img{
-    width:100px;
+    .navbar-logo img {
+        width: 100px;
+    }
 }
-}
-
-
