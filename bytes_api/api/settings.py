@@ -58,11 +58,18 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
+    'http://127.0.0.1:3000',
     'http://127.0.0.1',
     'http://127.0.0.1:8000'
 ]
+
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:3000']
+
+SESSION_COOKIE_SECURE = True  # Set to True if using HTTPS
+SESSION_COOKIE_SAMESITE = 'None'
 
 ROOT_URLCONF = 'api.urls'
 
@@ -106,12 +113,12 @@ DATABASES = {
 AUTH_USER_MODEL = "bytes.CustomUser"
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': (
+   'DEFAULT_AUTHENTICATION_CLASSES': (
+       'rest_framework.authentication.SessionAuthentication',
+   ),
+   'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
-    ),
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication',
-    )
+   ),
 }
 
 # Internationalization
