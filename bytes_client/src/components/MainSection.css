@@ -1,7 +1,5 @@
 .main-container {
     display: grid;
-    /* align-items: flex-start; */
-    /* height: 100vh; */
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
     box-sizing: border-box;
@@ -9,8 +7,6 @@
 
 .about-container {
     margin: 20px;
-    /* grid-column-start: 1;
-    grid-row-start: 1; */
     min-height: 300px;
     min-width: 450px;
 }
@@ -40,9 +36,6 @@
 
     width: 100%;
     height: auto;
-    /* width: 700px;
-    height: 300px;
-    flex-shrink: 0; */
 }
 
 .box-title {
@@ -78,15 +71,6 @@
     list-style-type: decimal;
     padding-left: 120px;
 }
-
-
-/*
-.inventory-list {
-    width: 600px;
-    height: auto;
-    border: 10px;
-    padding-left: 1000px;
-} */
 
 .sign-up-button {
     width: 150px;
