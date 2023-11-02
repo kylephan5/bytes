@@ -1,5 +1,5 @@
 import './App.css';
-import React from 'react';
+import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import Inventory from './components/pages/Inventory';
 import Recipes from './components/pages/Recipes';
@@ -12,19 +12,21 @@ import axios from "axios";
 
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   axios.defaults.xsrfCookieName = 'csrftoken';
   axios.defaults.xsrfHeaderName = 'X-CSRFToken';
   axios.defaults.withCredentials = true;
   axios.defaults.baseURL = 'http://127.0.0.1:8000/bytes_api';
   return (
     <Router>
-      <Navbar />
+      <Navbar isLoggedIn={isLoggedIn} />
       <Routes>
-        <Route path='/profile' element={<Profile />} />
+        <Route path='/profile' element={<Profile setIsLoggedIn={setIsLoggedIn} />} />
         <Route path='/' element={<Home />} />
         <Route path='/inventory' element={<Inventory />} />
         <Route path='/recipes' element={<Recipes />} />
-        <Route path='/login' element={<Login />} />
+        <Route path='/login' element={<Login setIsLoggedIn={setIsLoggedIn} />} />
         <Route path='/signup' element={<Signup />} />
       </Routes>
     </Router>

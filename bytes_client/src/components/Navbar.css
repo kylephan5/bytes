@@ -45,6 +45,27 @@
     transition: all 0.2s ease-out;
 }
 
+
+.nav-links.active {
+    border-bottom: 4px solid #fff;
+}
+
+.nav-links {
+    text-decoration: none;
+    position: relative;
+}
+
+.nav-links:hover::before {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background-color: #fff;
+}
+
+
 .fa-bars {
     color: #fff;
 }

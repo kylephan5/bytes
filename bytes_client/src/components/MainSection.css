@@ -1,7 +1,5 @@
 .main-container {
     display: grid;
-    align-items: flex-start;
-    height: 100vh;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
     box-sizing: border-box;
@@ -9,8 +7,6 @@
 
 .about-container {
     margin: 20px;
-    grid-column-start: 1;
-    grid-row-start: 1;
     min-height: 300px;
     min-width: 450px;
 }
@@ -37,9 +33,9 @@
     font-weight: 400;
     line-height: 34px;
     letter-spacing: 0.5px;
-    width: 700px;
-    height: 300px;
-    flex-shrink: 0;
+
+    width: 100%;
+    height: auto;
 }
 
 .box-title {
@@ -51,21 +47,29 @@
 }
 
 
-.logo {
-    align-items: center;
+.food-image {
+    display: flex;
+    justify-content: flex-end;
 }
 
-.logo img {
+.food-image img {
     width: 600px;
-    margin-left: 40px;
-    height: 350px;
+    height: 600px;
+    padding-right: 200px;
+    padding-top: 120px;
 }
 
-.inventory-list {
-    width: 600px;
-    height: auto;
-    border: 10px;
-    padding-left: 1000px;
+.how-does-it-work {
+    margin-top: 30px;
+}
+
+.how-does-it-work-title {
+    font-weight: 600;
+}
+
+.numbered-list {
+    list-style-type: decimal;
+    padding-left: 120px;
 }
 
 .sign-up-button {

@@ -4,7 +4,7 @@ import './Login.css';
 import axios from "axios"; // Import your CSS file
 import React, { useState } from 'react';
 
-function Signup() {
+function Signup({ setIsLoggedIn }) {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -30,7 +30,7 @@ function Signup() {
   //   })
   // }
 
-  const userLogin = (event) => {
+  const userLogin = (event, setIsLoggedIn) => {
     event.preventDefault();
     const { email, password } = formData;
 
@@ -41,6 +41,7 @@ function Signup() {
       withCredentials: true,
     }).then(function (response) {
       console.log('signed in');
+      setIsLoggedIn(true);
     }).catch(function (error) {
       console.error(error);
     })
@@ -57,10 +58,10 @@ function Signup() {
         <Form.Label>Password</Form.Label>
         <Form.Control type="password" placeholder="Password" name="password" value={formData.password} onChange={handleInputChange} />
       </Form.Group>
-      <Button variant="primary" type="submit" className="login-button" onClick={(event) => userLogin(event)}> {/* Apply the login-button class */}
+      <Button variant="primary" type="submit" className="login-button" onClick={(event) => userLogin(event, setIsLoggedIn)}>
         Submit
       </Button>
-      <a href="#" className="forgot-password-button">Forgot Password?</a>
+      {/* <a href="#" className="forgot-password-button">Forgot Password?</a> */}
 
     </Form>
   );
