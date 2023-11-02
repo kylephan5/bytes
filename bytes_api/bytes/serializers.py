@@ -21,12 +21,14 @@ class UserLoginSerializer(serializers.Serializer):
     password = serializers.CharField()
 
     def check_user(self, validated_data):
-        user = authenticate(username=validated_data['email'], password=validated_data['password'])
+        user = authenticate(
+            username=validated_data['email'], password=validated_data['password'])
 
         if not user:
             raise ValueError('Password incorrect, or user does not exist.')
 
         return user
+
 
 class ChangeUserPasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(required=True)
@@ -37,4 +39,4 @@ class ChangeUserPasswordSerializer(serializers.Serializer):
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ('id', 'email')
+        fields = ('id', 'email', 'password')
