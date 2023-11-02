@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import "./Navbar.css";
 import { NavLink } from 'react-router-dom';
 
-function Navbar() {
+function Navbar({ isLoggedIn }) {
     const [Menuclick, setMenuclick] = useState(false);
     const toggleMenu = () => setMenuclick(!Menuclick);
     const closemenu = () => setMenuclick(false);
+
+    // console.log(isLoggedIn)
 
     return (
         <>
@@ -16,25 +18,27 @@ function Navbar() {
                             : (<span className="material-symbols-outlined">menu</span>)}
                     </div>
                     <ul className={Menuclick ? 'nav-menu active' : 'nav-menu'}>
+                        {isLoggedIn && (
+                            <li className='nav-item'>
+                                <NavLink to='/profile' className='nav-links' activeclassname='active' onClick={closemenu}>
+                                    PROFILE
+                                </NavLink>
+                            </li>
+                        )}
                         <li className='nav-item'>
-                            <NavLink to='/profile' className='nav-links' activeClassName='active' onClick={closemenu}>
-                                PROFILE
-                            </NavLink>
-                        </li>
-                        <li className='nav-item'>
-                            <NavLink to='/' className='nav-links' activeClassName='active' exact onClick={closemenu}>
+                            <NavLink to='/' className='nav-links' activeclassname='active' onClick={closemenu}>
                                 HOME
                             </NavLink>                        </li>
                         <li className='nav-item'>
-                            <NavLink to='/inventory' className='nav-links' activeClassName='active' onClick={closemenu}>
+                            <NavLink to='/inventory' className='nav-links' activeclassname='active' onClick={closemenu}>
                                 INVENTORY
                             </NavLink>                        </li>
                         <li className='nav-item'>
-                            <NavLink to='/recipes' className='nav-links' activeClassName='active' onClick={closemenu}>
+                            <NavLink to='/recipes' className='nav-links' activeclassname='active' onClick={closemenu}>
                                 RECIPES
                             </NavLink>                        </li>
                         <li className='nav-item'>
-                            <NavLink to='/login' className='nav-links' activeClassName='active' onClick={closemenu}>
+                            <NavLink to='/login' className='nav-links' activeclassname='active' onClick={closemenu}>
                                 LOGIN
                             </NavLink>                        </li>
                         {/* <li className='nav-item'>

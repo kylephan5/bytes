@@ -1,18 +1,25 @@
 import { React, useEffect, useState } from 'react';
 import axios from "axios";
 import '../../App.css';
+import { Navigate } from 'react-router-dom';
 
-function Profile() {
+function Profile({ setIsLoggedIn }) {
     const [email, setEmail] = useState();
     const [oldPassword, setOldPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
-    const [passwordChangeMessage, setPasswordChangeMessage] = useState(''); // State variable for the message
+    // const [passwordChangeMessage, setPasswordChangeMessage] = useState(''); // show password success/fail to change to user?
 
-    const userLogout = () => {
+    const userLogout = ({ setIsLoggedIn }) => {
         axios.post('logout/').then(function (response) {
             console.log('signed out');
-        })
+            console.log(setIsLoggedIn)
+            setIsLoggedIn(false);
+            console.log(setIsLoggedIn)
+            Navigate('/');
+        }).catch(function (error) {
+            console.error(error);
+        });
     }
 
     const changePassword = () => {
@@ -46,7 +53,7 @@ function Profile() {
         <>
             <div>Profile Page</div>
             <div>{email}</div>
-            {<button onClick={userLogout}>
+            {<button onClick={userLogout(setIsLoggedIn)}>
                 Logout
             </button>}
 
