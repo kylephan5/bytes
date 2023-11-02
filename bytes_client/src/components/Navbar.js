@@ -7,7 +7,7 @@ function Navbar({ isLoggedIn }) {
     const toggleMenu = () => setMenuclick(!Menuclick);
     const closemenu = () => setMenuclick(false);
 
-    // console.log(isLoggedIn)
+    console.log(isLoggedIn)
 
     return (
         <>

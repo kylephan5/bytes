@@ -1,25 +1,32 @@
 import { React, useEffect, useState } from 'react';
 import axios from "axios";
 import '../../App.css';
-import { Navigate } from 'react-router-dom';
+// import { Navigate, Redirect } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
-function Profile({ setIsLoggedIn }) {
+
+function Profile(setIsLoggedIn) {
     const [email, setEmail] = useState();
     const [oldPassword, setOldPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
     // const [passwordChangeMessage, setPasswordChangeMessage] = useState(''); // show password success/fail to change to user?
 
-    const userLogout = ({ setIsLoggedIn }) => {
+    const navigate = useNavigate();
+    const userLogout = () => {
         axios.post('logout/').then(function (response) {
-            console.log('signed out');
-            console.log(setIsLoggedIn)
+            // console.log('signed out');
+            // console.log(setIsLoggedIn)
+            // console.log(typeof setIsLoggedIn);
+            // setEmail('');
+            // console.log(email);
+            console.log(`${setIsLoggedIn}`)
+            navigate("/");
             setIsLoggedIn(false);
-            console.log(setIsLoggedIn)
-            Navigate('/');
+
         }).catch(function (error) {
             console.error(error);
-        });
+        })
     }
 
     const changePassword = () => {
@@ -53,9 +60,9 @@ function Profile({ setIsLoggedIn }) {
         <>
             <div>Profile Page</div>
             <div>{email}</div>
-            {<button onClick={userLogout(setIsLoggedIn)}>
+            <button onClick={() => userLogout()}>
                 Logout
-            </button>}
+            </button>
 
             <h2>Change Password</h2>
             <form>

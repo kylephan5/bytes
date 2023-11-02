@@ -12,37 +12,46 @@ from .models import Recipe
 # Create your views here.
 
 
-class RecipeViewSet(viewsets.ModelViewSet):
-    permission_classes = (permissions.AllowAny,)
-    queryset = Recipe.objects.all()
-    serializer_class = RecipeSerializer
-
-    def list(self, request):
-        top_10_recipes = self.get_queryset().order_by('recipe_id')[:10]
-        serializer = self.serializer_class(top_10_recipes, many=True)
-
-        return Response(serializer.data)
-
 # class RecipeViewSet(viewsets.ModelViewSet):
 #     permission_classes = (permissions.AllowAny,)
+#     queryset = Recipe.objects.all()
 #     serializer_class = RecipeSerializer
 
 #     def list(self, request):
-#         queryset = Recipe.objects.all()
-
-#         filters = request.query_params
-#         search_query = filters.get('search', '')
-
-#         queryset = queryset.filter(recipe_name__icontains=search_query)
-
-#         for field in Recipe._meta.fields:
-#             if field.name in filters and filters.get(field.name) == 'true':
-#                 queryset = queryset.filter(**{f'{field.name}': True})
-
-#         top_10_recipes = queryset.order_by('recipe_id')[:10]
+#         top_10_recipes = self.get_queryset().order_by('recipe_id')[:10]
 #         serializer = self.serializer_class(top_10_recipes, many=True)
 
 #         return Response(serializer.data)
+
+class RecipeViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.AllowAny,)
+    authentication_classes = (SessionAuthentication, )
+
+    serializer_class = RecipeSerializer
+    queryset = Recipe.objects.all()
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        top_10_recipes = queryset.order_by('recipe_id')[:10]
+        print(self.request.query_params)
+
+        return top_10_recipes
+    # def list(self, request):
+    #     queryset = Recipe.objects.all()
+
+    #     filters = request.query_params
+    #     search_query = filters.get('search', '')
+
+    #     queryset = queryset.filter(recipe_name__icontains=search_query)
+
+    #     for field in Recipe._meta.fields:
+    #         if field.name in filters and filters.get(field.name) == 'true':
+    #             queryset = queryset.filter(**{f'{field.name}': True})
+
+    #     top_10_recipes = queryset.order_by('recipe_id')[:10]
+    #     serializer = self.serializer_class(top_10_recipes, many=True)
+
+    #     return Response(serializer.data)
 
 
 class AllUsers(viewsets.ModelViewSet):
