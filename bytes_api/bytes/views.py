@@ -49,6 +49,7 @@ class UserLogin(APIView):
     def post(self, request):
         data = request.data
 
+        print(data)
         serializer_class = UserLoginSerializer(data=data)
         if serializer_class.is_valid(raise_exception=True):
             user = serializer_class.check_user(data)
