@@ -29,3 +29,21 @@
     border: 1px solid #ddd;
     margin: 5px;
 }
+
+.image-container {
+    position: relative;
+    display: inline-block;
+}
+
+.remove-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: rgb(206, 99, 99);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
