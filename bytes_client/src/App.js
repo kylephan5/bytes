@@ -10,7 +10,6 @@ import Signup from "./components/pages/Signup";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import axios from "axios";
 
-
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -18,9 +17,10 @@ function App() {
   axios.defaults.xsrfHeaderName = 'X-CSRFToken';
   axios.defaults.withCredentials = true;
 
-  if (process.env.environment === 'development') {
+  console.log(process.env.NODE_ENV);
+  if (process.env.NODE_ENV == 'development') {
     axios.defaults.baseURL = 'http://127.0.0.1:8000/bytes_api';
-  } else if (process.env.environment === 'production') {
+  } else if (process.env.NODE_ENV == 'production') {
     axios.defaults.baseURL = 'http://147.182.186.12/bytes_api';
   }
 
