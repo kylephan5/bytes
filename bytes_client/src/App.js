@@ -21,7 +21,7 @@ function App() {
   if (process.env.NODE_ENV == 'development') {
     axios.defaults.baseURL = 'http://127.0.0.1:8000/bytes_api';
   } else if (process.env.NODE_ENV == 'production') {
-    axios.defaults.baseURL = 'http://147.182.186.12/bytes_api';
+    axios.defaults.baseURL = 'https://bytes.ndlug.org/bytes_api';
   }
 
   return (

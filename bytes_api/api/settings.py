@@ -63,9 +63,10 @@ CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:3000',
     'http://127.0.0.1',
     'http://127.0.0.1:8000',
+    'https://bytes.ndlug.org',
 ]
 
-CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:3000', 'http://127.0.0.1', ]
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:3000', 'http://127.0.0.1','https://bytes.ndlug.org' ]
 
 SESSION_COOKIE_SECURE = True  # Set to True if using HTTPS
 SESSION_COOKIE_SAMESITE = 'None'
