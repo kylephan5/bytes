@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 function Navbar({ isLoggedIn }) {
     const [Menuclick, setMenuclick] = useState(false);
     const toggleMenu = () => setMenuclick(!Menuclick);
-    const closemenu = () => setMenuclick(false);
+    const closeMenu = () => setMenuclick(false);
 
     console.log(isLoggedIn)
 
@@ -20,27 +20,31 @@ function Navbar({ isLoggedIn }) {
                     <ul className={Menuclick ? 'nav-menu active' : 'nav-menu'}>
                         {isLoggedIn && (
                             <li className='nav-item'>
-                                <NavLink to='/profile' className='nav-links' activeclassname='active' onClick={closemenu}>
+                                <NavLink to='/profile' className='nav-links' activeclassname='active' onClick={closeMenu}>
                                     PROFILE
                                 </NavLink>
                             </li>
                         )}
                         <li className='nav-item'>
-                            <NavLink to='/' className='nav-links' activeclassname='active' onClick={closemenu}>
+                            <NavLink to='/' className='nav-links' activeclassname='active' onClick={closeMenu}>
                                 HOME
-                            </NavLink>                        </li>
+                            </NavLink>
+                        </li>
                         <li className='nav-item'>
-                            <NavLink to='/inventory' className='nav-links' activeclassname='active' onClick={closemenu}>
+                            <NavLink to='/inventory' className='nav-links' activeclassname='active' onClick={closeMenu}>
                                 INVENTORY
-                            </NavLink>                        </li>
+                            </NavLink>
+                        </li>
                         <li className='nav-item'>
-                            <NavLink to='/recipes' className='nav-links' activeclassname='active' onClick={closemenu}>
+                            <NavLink to='/recipes' className='nav-links' activeclassname='active' onClick={closeMenu}>
                                 RECIPES
-                            </NavLink>                        </li>
+                            </NavLink>
+                        </li>
                         <li className='nav-item'>
-                            <NavLink to='/login' className='nav-links' activeclassname='active' onClick={closemenu}>
+                            <NavLink to='/login' className='nav-links' activeclassname='active' onClick={closeMenu}>
                                 LOGIN
-                            </NavLink>                        </li>
+                            </NavLink>
+                        </li>
                         {/* <li className='nav-item'>
                             <Link to='/signup' className='nav-links' onClick={closemenu}>SIGNUP</Link>
                         </li> */}

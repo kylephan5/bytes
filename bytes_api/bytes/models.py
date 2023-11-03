@@ -4,14 +4,6 @@ from django.db.models import IntegerField
 
 # Create your models here.
 
-'''
-
-class CustomUser
-    email str
-    password hash
-    favorited_items array
-'''
-
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password, **extra_fields):
@@ -55,30 +47,12 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         return self.email
 
 
-'''
-Inventory class: Used to store what items a specific user has
-email: 
-'''
-
-
 class Inventory(models.Model):
-    email = models.EmailField(unique=True)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE) # each inventory should be assigned to a specific user
     ingredient = models.CharField(max_length=75)
 
-    # gluten_free_bool = models.BooleanField(default=False)
-    # vegitarian_bool = models.BooleanField(default=False)
-    # vegan_bool = models.BooleanField(default=False)
-    # lactose_bool = models.BooleanField(default=False)
-    # nut_free_bool = models.BooleanField(default=False)
-    # shellfish_free_bool = models.BooleanField(default=False)
-
     def __str__(self):
-        return self.email
-
-
-'''
-Recipe class: Used to store recipe data
-'''
+        return self.user
 
 
 class Recipe(models.Model):
