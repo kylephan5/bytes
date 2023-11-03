@@ -6,11 +6,54 @@ from rest_framework.authentication import SessionAuthentication
 from rest_framework.views import APIView
 from rest_framework.generics import UpdateAPIView
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from .models import Recipe
 
 # Create your views here.
 
 
-# Random, view all users, will delete soon
+# class RecipeViewSet(viewsets.ModelViewSet):
+#     permission_classes = (permissions.AllowAny,)
+#     queryset = Recipe.objects.all()
+#     serializer_class = RecipeSerializer
+
+#     def list(self, request):
+#         top_10_recipes = self.get_queryset().order_by('recipe_id')[:10]
+#         serializer = self.serializer_class(top_10_recipes, many=True)
+
+#         return Response(serializer.data)
+
+class RecipeViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.AllowAny,)
+    authentication_classes = (SessionAuthentication, )
+
+    serializer_class = RecipeSerializer
+    queryset = Recipe.objects.all()
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        top_10_recipes = queryset.order_by('recipe_id')[:10]
+        print(self.request.query_params)
+
+        return top_10_recipes
+    # def list(self, request):
+    #     queryset = Recipe.objects.all()
+
+    #     filters = request.query_params
+    #     search_query = filters.get('search', '')
+
+    #     queryset = queryset.filter(recipe_name__icontains=search_query)
+
+    #     for field in Recipe._meta.fields:
+    #         if field.name in filters and filters.get(field.name) == 'true':
+    #             queryset = queryset.filter(**{f'{field.name}': True})
+
+    #     top_10_recipes = queryset.order_by('recipe_id')[:10]
+    #     serializer = self.serializer_class(top_10_recipes, many=True)
+
+    #     return Response(serializer.data)
+
+
 class AllUsers(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny,)
     authentication_classes = (SessionAuthentication, )
@@ -88,6 +131,7 @@ class UserChangePassword(UpdateAPIView):
 # Log out of Current User
 class UserLogout(APIView):
     permission_classes = (permissions.IsAuthenticated, )
+
     def post(self, request):
         logout(request)
         return Response(status=status.HTTP_200_OK)
@@ -100,4 +144,4 @@ class ProfileView(APIView):
 
     def get(self, request):
         serializer_class = CustomUserSerializer(request.user)
-        return Response({'user': serializer_class.data} , status=status.HTTP_200_OK)
+        return Response({'user': serializer_class.data}, status=status.HTTP_200_OK)

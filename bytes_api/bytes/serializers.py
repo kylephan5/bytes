@@ -2,6 +2,41 @@ from .models import CustomUser
 from rest_framework import serializers
 from django.contrib.auth import authenticate
 
+from .models import Recipe
+
+
+class RecipeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Recipe
+        fields = ('recipe_id', 'recipe_name', 'recipe_url', 'gluten_friendly', 'vegan_friendly',
+                  'vegetarian_friendly', 'lactose_friendly', 'keto_friendly', 'nut_friendly', 'shellfish_friendly')
+
+    # def create(self, validated_data):
+    #     recipe = Recipe.objects.create(**validated_data)
+    #     return recipe
+
+    # def update(self, instance, validated_data):
+    #     instance.recipe_name = validated_data.get(
+    #         'recipe_name', instance.recipe_name)
+    #     instance.recipe_url = validated_data.get(
+    #         'recipe_url', instance.recipe_url)
+    #     instance.gluten_friendly = validated_data.get(
+    #         'gluten_friendly', instance.gluten_friendly)
+    #     instance.vegan_friendly = validated_data.get(
+    #         'vegan_friendly', instance.vegan_friendly)
+    #     instance.vegetarian_friendly = validated_data.get(
+    #         'vegetarian_friendly', instance.vegetarian_friendly)
+    #     instance.lactose_friendly = validated_data.get(
+    #         'lactose_friendly', instance.lactose_friendly)
+    #     instance.keto_friendly = validated_data.get(
+    #         'keto_friendly', instance.keto_friendly)
+    #     instance.nut_friendly = validated_data.get(
+    #         'nut_friendly', instance.nut_friendly)
+    #     instance.shellfish_friendly = validated_data.get(
+    #         'shellfish_friendly', instance.shellfish_friendly)
+    #     instance.save()
+    #     return instance
+
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
     class Meta:
