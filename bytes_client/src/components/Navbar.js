@@ -2,22 +2,20 @@ import React, { useState } from "react";
 import "./Navbar.css";
 import { NavLink } from 'react-router-dom';
 
-function Navbar({ isLoggedIn }) {
-    const [Menuclick, setMenuclick] = useState(false);
-    const toggleMenu = () => setMenuclick(!Menuclick);
-    const closeMenu = () => setMenuclick(false);
-
-    console.log(isLoggedIn)
+function Navbar({isLoggedIn}) {
+    const [menuClick, setMenuClick] = useState(false);
+    const toggleMenu = () => setMenuClick(!menuClick);
+    const closeMenu = () => setMenuClick(false);
 
     return (
         <>
             <div className="navbar">
                 <div className="navbar-container">
                     <div className='menu-icon' onClick={toggleMenu}>
-                        {Menuclick ? (<span className="material-symbols-outlined">close</span>)
+                        {menuClick ? (<span className="material-symbols-outlined">close</span>)
                             : (<span className="material-symbols-outlined">menu</span>)}
                     </div>
-                    <ul className={Menuclick ? 'nav-menu active' : 'nav-menu'}>
+                    <ul className={menuClick ? 'nav-menu active' : 'nav-menu'}>
                         {isLoggedIn && (
                             <li className='nav-item'>
                                 <NavLink to='/profile' className='nav-links' activeclassname='active' onClick={closeMenu}>

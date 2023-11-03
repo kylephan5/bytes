@@ -5,25 +5,24 @@ import '../../App.css';
 import { useNavigate } from "react-router-dom";
 
 
-function Profile(setIsLoggedIn) {
+function Profile(props) {
     const [email, setEmail] = useState();
     const [oldPassword, setOldPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
     // const [passwordChangeMessage, setPasswordChangeMessage] = useState(''); // show password success/fail to change to user?
-
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!props.isLoggedIn) {
+            navigate("/");
+            window.location.reload();
+        }
+    })
     const userLogout = () => {
         axios.post('logout/').then(function (response) {
-            // console.log('signed out');
-            // console.log(setIsLoggedIn)
-            // console.log(typeof setIsLoggedIn);
-            // setEmail('');
-            // console.log(email);
-            console.log(`${setIsLoggedIn}`)
             navigate("/");
-            setIsLoggedIn(false);
-
+            window.location.reload();
         }).catch(function (error) {
             console.error(error);
         })
@@ -55,7 +54,7 @@ function Profile(setIsLoggedIn) {
         }).catch(function (error) {
             console.error(error);
         })
-    }, [])
+    }, [email])
     return (
         <>
             <div>Profile Page</div>
