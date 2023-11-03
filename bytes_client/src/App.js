@@ -18,9 +18,9 @@ function App() {
   axios.defaults.withCredentials = true;
 
   console.log(process.env.NODE_ENV);
-  if (process.env.NODE_ENV == 'development') {
+  if (process.env.NODE_ENV === 'development') {
     axios.defaults.baseURL = 'http://127.0.0.1:8000/bytes_api';
-  } else if (process.env.NODE_ENV == 'production') {
+  } else if (process.env.NODE_ENV === 'production') {
     axios.defaults.baseURL = 'https://bytes.ndlug.org/bytes_api';
   }
 
@@ -28,7 +28,7 @@ function App() {
     <Router>
       <Navbar isLoggedIn={isLoggedIn} />
       <Routes>
-        <Route path='/profile' element={<Profile setIsLoggedIn={setIsLoggedIn} />} />
+        <Route path='/profile' element={<Profile isLoggedIn={isLoggedIn}/>} />
         <Route path='/' element={<Home />} />
         <Route path='/inventory' element={<Inventory />} />
         <Route path='/recipes' element={<Recipes />} />
