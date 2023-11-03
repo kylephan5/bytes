@@ -17,7 +17,13 @@ function App() {
   axios.defaults.xsrfCookieName = 'csrftoken';
   axios.defaults.xsrfHeaderName = 'X-CSRFToken';
   axios.defaults.withCredentials = true;
-  axios.defaults.baseURL = 'http://127.0.0.1:8000/bytes_api';
+
+  if (process.env.environment === 'development') {
+    axios.defaults.baseURL = 'http://127.0.0.1:8000/bytes_api';
+  } else if (process.env.environment === 'production') {
+    axios.defaults.baseURL = 'http://147.182.186.12/bytes_api';
+  }
+
   return (
     <Router>
       <Navbar isLoggedIn={isLoggedIn} />
