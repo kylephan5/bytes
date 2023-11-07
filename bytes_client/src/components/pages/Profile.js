@@ -54,53 +54,6 @@ function Profile(props) {
             console.error(error);
         })
     }, [email])
-    //     return (
-    //         <>
-    //             <div>Profile Page</div>
-    //             <div>{email}</div>
-    //             <button onClick={() => userLogout()}>
-    //                 Logout
-    //             </button>
-
-    //             <h2>Change Password</h2>
-    //             <form>
-    //                 <label>
-    //                     Old Password:
-    //                     <input
-    //                         type="password"
-    //                         value={oldPassword}
-    //                         onChange={(e) => setOldPassword(e.target.value)}
-    //                     />
-    //                 </label>
-    //                 <br />
-
-    //                 <label>
-    //                     New Password:
-    //                     <input
-    //                         type="password"
-    //                         value={newPassword}
-    //                         onChange={(e) => setNewPassword(e.target.value)}
-    //                     />
-    //                 </label>
-    //                 <br />
-
-    //                 <label>
-    //                     Confirm New Password:
-    //                     <input
-    //                         type="password"
-    //                         value={confirmNewPassword}
-    //                         onChange={(e) => setConfirmNewPassword(e.target.value)}
-    //                     />
-    //                 </label>
-    //                 <br />
-
-    //                 <button type="button" onClick={changePassword}>
-    //                     Change Password
-    //                 </button>
-    //             </form>
-    //         </>
-    //     )
-    // }
 
 
     return (
