@@ -13,12 +13,24 @@ function Profile(props) {
     // const [passwordChangeMessage, setPasswordChangeMessage] = useState(''); // show password success/fail to change to user?
     const navigate = useNavigate();
 
+    // useEffect(() => {
+    //     if (!props.isLoggedIn) {
+    //         navigate("/");
+    //         window.location.reload();
+    //     }
+    // })
+
     useEffect(() => {
-        if (!props.isLoggedIn) {
-            navigate("/");
-            window.location.reload();
+        if (props.isLoggedIn) {
+            axios.get('profile/').then(function (response) {
+                console.log(response.data.user);
+                setEmail(response.data.user['email']);
+            }).catch(function (error) {
+                console.error(error);
+            });
         }
-    })
+    }, [props.isLoggedIn]);
+
     const userLogout = () => {
         axios.post('logout/').then(function (response) {
             navigate("/");

@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 // import '../../App.css';
 import './Inventory.css';
+import axios from "axios";
+
 
 function Inventory() {
   const [images, setImages] = useState([]);
+  const [results, setResults] = useState([]);
   const fileInputRef = React.createRef();
 
   const handleDrop = (e) => {
@@ -25,6 +28,39 @@ function Inventory() {
     fileInputRef.current.click();
   };
 
+  const handleRemoveImage = (index) => {
+    const updatedImages = [...images];
+    updatedImages.splice(index, 1);
+    setImages(updatedImages);
+  };
+
+  const processImages = () => {
+    const formData = new FormData();
+    images.forEach((image, index) => {
+      formData.append(`images[${index}]`, image);
+    });
+
+    axios
+      .post('cv/', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then(function (response) {
+        if (response.status === 200) {
+          const data = response.data;
+          setResults(data.items);
+        } else {
+          console.error('Error processing images');
+        }
+      })
+      .catch(function (error) {
+        console.error('Error processing images:', error);
+      });
+  };
+
+
+
   return (
     <div className="inventory-container">
       <div
@@ -44,18 +80,29 @@ function Inventory() {
           onChange={handleFileSelect}
           ref={fileInputRef}
         />
+        <button onClick={processImages}>Process Images</button>
       </div>
       <div className="image-preview">
         {images.map((image, index) => (
-          <img
-            key={index}
-            src={URL.createObjectURL(image)}
-            alt={`Image ${index}`}
-          />
+          <div key={index} className="image-container">
+            <img src={URL.createObjectURL(image)} alt={`Image ${index}`} />
+            <button className="remove-button" onClick={() => handleRemoveImage(index)}>
+              X
+            </button>
+          </div>
         ))}
+      </div>
+      <div className="results">
+        <h2>Analysis Results:</h2>
+        <ul>
+          {results.map((result, index) => (
+            <li key={index}>{result}</li>
+          ))}
+        </ul>
       </div>
     </div>
   );
 }
 
 export default Inventory;
+
