@@ -8,6 +8,7 @@ function Inventory() {
   const [images, setImages] = useState([]);
   const [results, setResults] = useState([]);
   const fileInputRef = React.createRef();
+  const [searchTerm, setSearchTerm] = useState('');
 
   const handleDrop = (e) => {
     e.preventDefault();
@@ -39,11 +40,20 @@ function Inventory() {
     images.forEach((image, index) => {
       formData.append(`images[${index}]`, image);
     });
+  
+  // const manualInput = () => {
+  //   const formData = new FormData();
+  //   images.forEach((searchTerm, index) => {
+  //   formData.append(searchTerm);
+  // });
 
     axios
       .post('cv/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
+        },
+        params: {
+          searchTerm: searchTerm, 
         },
       })
       .then(function (response) {
@@ -58,8 +68,6 @@ function Inventory() {
         console.error('Error processing images:', error);
       });
   };
-
-
 
   return (
     <div className="inventory-container">
@@ -92,9 +100,19 @@ function Inventory() {
           </div>
         ))}
       </div>
+      <div className="manual-input">
+        <h3>Input Inventory</h3>
+      <input
+        type="text"
+        placeholder="Type in items"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+      {/* <button onClick={manualInput}>Add</button> */}
+    </div>
       <div className="results">
         <h2>Analysis Results:</h2>
-        <ul>
+        <ul className='items'>
           {results.map((result, index) => (
             <li key={index}>{result}</li>
           ))}
