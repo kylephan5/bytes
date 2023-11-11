@@ -12,7 +12,7 @@
     padding-right: 200px;
     text-align: center;
     cursor: pointer;
-    margin: 100px;
+    margin: 50px;
 }
 
 .image-preview {
@@ -23,9 +23,45 @@
 }
 
 .image-preview img {
-    max-width: 100px;
-    max-height: 100px;
+    max-width: 300px;
+    max-height: 300px;
     object-fit: cover;
     border: 1px solid #ddd;
     margin: 5px;
+}
+
+.manual-input{
+    text-align: center;
+    margin-top: 10px;
+    padding-bottom: 50px;
+}
+
+.manual-input input {
+    padding: 8px;
+    font-size: 16px;
+    width: 200px;
+    text-align: center;
+}
+
+.add-input{
+    margin-top: 20px;
+    background-color: #0a740e;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.results h2{
+    text-align: center;
+}
+
+.results .items{
+    border: 2px dashed #ccc;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 100px;
+    padding-right: 100px;
+    text-align: center;
 }
