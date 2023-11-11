@@ -40,12 +40,6 @@ function Inventory() {
     images.forEach((image, index) => {
       formData.append(`images[${index}]`, image);
     });
-  
-  // const manualInput = () => {
-  //   const formData = new FormData();
-  //   images.forEach((searchTerm, index) => {
-  //   formData.append(searchTerm);
-  // });
 
     axios
       .post('cv/', formData, {
@@ -66,6 +60,23 @@ function Inventory() {
       })
       .catch(function (error) {
         console.error('Error processing images:', error);
+      });
+  };
+
+  const manualInput = () => {
+    axios
+      .post('backend/update', { searchTerm })
+      .then(function (response) {
+        if (response.status === 200) {
+          console.log('Backend updated successfully');
+          const data = response.data;
+          setResults(data.items);
+        } else {
+          console.error('Error updating backend');
+        }
+      })
+      .catch(function (error) {
+        console.error('Error updating backend:', error);
       });
   };
 
@@ -108,7 +119,7 @@ function Inventory() {
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
-      {/* <button onClick={manualInput}>Add</button> */}
+      <button onClick={manualInput}>Add</button>
     </div>
       <div className="results">
         <h2>Analysis Results:</h2>
