@@ -8,7 +8,7 @@ from rest_framework.generics import UpdateAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from .models import Recipe
-from .process_images import process_images
+# from .process_images import process_images
 
 from .serializers import ImageUploadSerializer, ComputerVisionSerializer
 
@@ -35,19 +35,54 @@ class ComputerVisionView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# class RecipeViewSet(viewsets.ModelViewSet):
+#     permission_classes = (permissions.AllowAny,)
+#     authentication_classes = (SessionAuthentication, )
+
+#     serializer_class = RecipeSerializer
+#     queryset = Recipe.objects.all()
+
+#     def get_queryset(self):
+#         queryset = super().get_queryset()
+#         top_10_recipes = queryset.order_by('recipe_id')[:10]
+#         print(self.request.query_params)
+
+#         return top_10_recipes
+
 class RecipeViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny,)
     authentication_classes = (SessionAuthentication, )
-
     serializer_class = RecipeSerializer
-    queryset = Recipe.objects.all()
+
+
+class RecipeViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.AllowAny,)
+    authentication_classes = (SessionAuthentication, )
+    serializer_class = RecipeSerializer
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        top_10_recipes = queryset.order_by('recipe_id')[:10]
-        print(self.request.query_params)
+        queryset = Recipe.objects.all()
+        filters = {}
 
-        return top_10_recipes
+        for param, value in self.request.query_params.items():
+            if param != 'search':
+                if value == 'false':
+                    pass
+                #     filters[param] = False
+                if value == 'true':
+                    filters[param] = True
+                # else:
+                #     actual_value = self.request.query_params.get(param)
+                #     if actual_value is not None:
+                #         filters[param] = actual_value
+
+        print(filters)
+        if 'search' in self.request.query_params:
+            queryset = queryset.filter(
+                recipe_name__icontains=self.request.query_params.get('search'))
+
+        queryset = queryset.filter(**filters).order_by('recipe_id')[:100]
+        return queryset
 
 
 class AllUsers(viewsets.ModelViewSet):

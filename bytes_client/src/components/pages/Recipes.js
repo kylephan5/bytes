@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../../App.css';
-import "./Recipes.css";
-import axios from "axios";
+import './Recipes.css';
+import axios from 'axios';
 
 function Recipes() {
     const [recipes, setRecipes] = useState([]);
@@ -16,38 +16,34 @@ function Recipes() {
         shellfish_friendly: false,
     });
 
-    useEffect(() => {
-        axios.get('recipes/')
-            .then(response => {
-                setRecipes(response.data);
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
-    }, []);
-
-    // update filter state
     const handleFilterChange = (filterName) => {
-        setFilters({
+        const updatedFilters = {
             ...filters,
             [filterName]: !filters[filterName],
-        });
+        };
+        setFilters(updatedFilters);
+        console.log(updatedFilters);
+
+        fetchRecipes({ ...updatedFilters, search: searchQuery });
     };
 
-    // check if a recipe matches the selected filters
-    const filterRecipe = (recipe) => {
-        for (const filterName in filters) {
-            if (filters[filterName] && !recipe[filterName]) {
-                return false;
-            }
+
+    useEffect(() => {
+        fetchRecipes({ ...filters, search: searchQuery });
+    }, [searchQuery]);
+
+    const fetchRecipes = async (currentFilters) => {
+        try {
+            const response = await axios.get('recipes/', { params: currentFilters });
+            setRecipes(response.data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
         }
-        return true;
     };
 
-    // filter recipes based on search query and selected filters
-    const filteredRecipes = recipes.filter(recipe =>
-        recipe.recipe_name.toLowerCase().includes(searchQuery.toLowerCase()) && filterRecipe(recipe)
-    );
+    const handleSearchChange = (e) => {
+        setSearchQuery(e.target.value);
+    };
 
     return (
         <div className="recipe-container">
@@ -57,7 +53,7 @@ function Recipes() {
                 type="text"
                 placeholder="Search recipes..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={handleSearchChange}
             />
 
             <div className="filter-section">
@@ -69,18 +65,25 @@ function Recipes() {
                             checked={filters[filterName]}
                             onChange={() => handleFilterChange(filterName)}
                         />
-                        {filterName.replace('_', ' ')}
+                        {filterName.replace('Friendly', '').replace(/([A-Z])/g, ' $1').trim()}
                     </label>
                 ))}
             </div>
 
             <div className="recipe-cards">
-                {filteredRecipes.map(recipe => (
+                {recipes.map((recipe) => (
                     <div key={recipe.recipe_id} className="recipe-card">
                         <h2>{recipe.recipe_name}</h2>
-                        <p>Recipe URL: <a href={`http://${recipe.recipe_url}`} target="_blank" rel="noopener noreferrer">
-                            {recipe.recipe_url}
-                        </a></p>
+                        <p>
+                            Recipe URL:{' '}
+                            <a
+                                href={`http://${recipe.recipe_url}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                {recipe.recipe_url}
+                            </a>
+                        </p>
                     </div>
                 ))}
             </div>

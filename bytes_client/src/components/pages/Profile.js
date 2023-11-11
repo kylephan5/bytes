@@ -1,9 +1,8 @@
 import { React, useEffect, useState } from 'react';
 import axios from "axios";
-import '../../App.css';
-// import { Navigate, Redirect } from 'react-router-dom';
+// import '../../App.css';
 import { useNavigate } from "react-router-dom";
-
+import './Profile.css';
 
 function Profile(props) {
     const [email, setEmail] = useState();
@@ -13,24 +12,12 @@ function Profile(props) {
     // const [passwordChangeMessage, setPasswordChangeMessage] = useState(''); // show password success/fail to change to user?
     const navigate = useNavigate();
 
-    // useEffect(() => {
-    //     if (!props.isLoggedIn) {
-    //         navigate("/");
-    //         window.location.reload();
-    //     }
-    // })
-
     useEffect(() => {
-        if (props.isLoggedIn) {
-            axios.get('profile/').then(function (response) {
-                console.log(response.data.user);
-                setEmail(response.data.user['email']);
-            }).catch(function (error) {
-                console.error(error);
-            });
+        if (!props.isLoggedIn) {
+            navigate("/");
+            window.location.reload();
         }
-    }, [props.isLoggedIn]);
-
+    })
     const userLogout = () => {
         axios.post('logout/').then(function (response) {
             navigate("/");
@@ -67,52 +54,58 @@ function Profile(props) {
             console.error(error);
         })
     }, [email])
+
+
     return (
-        <>
-            <div>Profile Page</div>
-            <div>{email}</div>
-            <button onClick={() => userLogout()}>
+        <div className="profile-container">
+            <div className="profile-header">Profile Page</div>
+            <div className="user-email">{email}</div>
+            <button onClick={() => userLogout()} className="profile-logout-button">
                 Logout
             </button>
 
-            <h2>Change Password</h2>
+            <h2 className="password-header">Change Password</h2>
             <form>
-                <label>
+                <label className="password-label">
                     Old Password:
                     <input
                         type="password"
                         value={oldPassword}
                         onChange={(e) => setOldPassword(e.target.value)}
+                        className="password-input"
                     />
+
                 </label>
                 <br />
 
-                <label>
+                <label className="password-label">
                     New Password:
                     <input
                         type="password"
                         value={newPassword}
                         onChange={(e) => setNewPassword(e.target.value)}
+                        className="password-input"
                     />
                 </label>
                 <br />
 
-                <label>
+                <label className="password-label">
                     Confirm New Password:
                     <input
                         type="password"
                         value={confirmNewPassword}
                         onChange={(e) => setConfirmNewPassword(e.target.value)}
+                        className="password-input"
                     />
                 </label>
                 <br />
 
-                <button type="button" onClick={changePassword}>
+                <button type="button" onClick={changePassword} className="change-password-button">
                     Change Password
                 </button>
             </form>
-        </>
-    )
+        </div>
+    );
 }
 
 export default Profile;
