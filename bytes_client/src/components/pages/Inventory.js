@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import './Inventory.css';
 import axios from "axios";
 
-
 function Inventory() {
   const [images, setImages] = useState([]);
   const [results, setResults] = useState([]);
@@ -38,26 +37,18 @@ function Inventory() {
   const processImages = () => {
     const formData = new FormData();
     images.forEach((image, index) => {
-      formData.append(`images[${index}]`, image);
+      formData.append('images', image);
     });
-  
-  // const manualInput = () => {
-  //   const formData = new FormData();
-  //   images.forEach((searchTerm, index) => {
-  //   formData.append(searchTerm);
-  // });
 
     axios
       .post('cv/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
-        },
-        params: {
-          searchTerm: searchTerm, 
-        },
+        }
       })
       .then(function (response) {
         if (response.status === 200) {
+          console.log('image uploaded');
           const data = response.data;
           setResults(data.items);
         } else {
@@ -66,6 +57,23 @@ function Inventory() {
       })
       .catch(function (error) {
         console.error('Error processing images:', error);
+      });
+  };
+
+  const manualInput = () => {
+    axios
+      .post('cv/', { searchTerm })
+      .then(function (response) {
+        if (response.status === 200) {
+          console.log('Backend updated successfully');
+          const data = response.data;
+          setResults(data.items);
+        } else {
+          console.error('Error updating backend :(');
+        }
+      })
+      .catch(function (error) {
+        console.error('Error updating backend:', error);
       });
   };
 
@@ -101,14 +109,14 @@ function Inventory() {
         ))}
       </div>
       <div className="manual-input">
-        <h3>Input Inventory</h3>
+        <h2>Input Inventory</h2>
       <input
         type="text"
         placeholder="Type in items"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
-      {/* <button onClick={manualInput}>Add</button> */}
+      <button className='add-input' onClick={manualInput}>Add</button>
     </div>
       <div className="results">
         <h2>Analysis Results:</h2>
