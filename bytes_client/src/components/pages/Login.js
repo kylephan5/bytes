@@ -1,14 +1,17 @@
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import './Login.css';
-import axios from "axios"; // Import your CSS file
+import axios from 'axios';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Signup({ setIsLoggedIn }) {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
-  })
+  });
+  const [loginStatus, setLoginStatus] = useState(null); // new state variable for login status
+  const navigate = useNavigate();
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -16,52 +19,81 @@ function Signup({ setIsLoggedIn }) {
       ...formData,
       [name]: value,
     });
-  }
-  //
-  // const changePassword = (old_password, new_password, confirm_password) => {
-  //   axios.put('change_password/', {
-  //     old_password: old_password,
-  //     new_password: new_password,
-  //     confirm_password: confirm_password,
-  //   }).then(function (response) {
-  //     console.log(response);
-  //   }).catch(function (error) {
-  //     console.error(error);
-  //   })
-  // }
+  };
 
-  const userLogin = (event, setIsLoggedIn) => {
+  const userLogin = (event) => {
     event.preventDefault();
     const { email, password } = formData;
 
-    axios.post('login/', {
-      email: email,
-      password: password,
-    }, {
-      withCredentials: true,
-    }).then(function (response) {
-      console.log('signed in');
-      setIsLoggedIn(true);
-    }).catch(function (error) {
-      console.error(error);
-    })
-  }
+    axios
+      .post(
+        'login/',
+        {
+          email: email,
+          password: password,
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then(function (response) {
+        console.log('signed in');
+        setIsLoggedIn(true);
+        setLoginStatus('success'); // Set login status to success
+        navigate('/profile');
+        setTimeout(() => {
+          setLoginStatus(''); // Remove login status after 3 seconds
+        }, 3000);
+      })
+      .catch(function (error) {
+        console.error(error);
+        setLoginStatus('error'); // Set login status to error
+        setTimeout(() => {
+          setLoginStatus(''); // Remove login status after 3 seconds
+        }, 3000);
+      });
+  };
+
 
   return (
-    <Form className="login-form"> {/* Apply the login-form class */}
+    <Form className="login-form">
       <Form.Group controlId="formBasicEmail">
         <Form.Label>Email address</Form.Label>
-        <Form.Control type="email" placeholder="Enter email" name="email" value={formData.email} onChange={handleInputChange} />
+        <Form.Control
+          type="email"
+          placeholder="Enter email"
+          name="email"
+          value={formData.email}
+          onChange={handleInputChange}
+        />
       </Form.Group>
 
       <Form.Group controlId="formBasicPassword">
         <Form.Label>Password</Form.Label>
-        <Form.Control type="password" placeholder="Password" name="password" value={formData.password} onChange={handleInputChange} />
+        <Form.Control
+          type="password"
+          placeholder="Password"
+          name="password"
+          value={formData.password}
+          onChange={handleInputChange}
+        />
       </Form.Group>
-      <Button variant="primary" type="submit" className="login-button" onClick={(event) => userLogin(event, setIsLoggedIn)}>
+      <Button
+        variant="primary"
+        type="submit"
+        className="login-button"
+        onClick={userLogin}
+      >
         Submit
       </Button>
-      {/* <a href="#" className="forgot-password-button">Forgot Password?</a> */}
+
+      {/* Display login status with fade-out effect */}
+      {loginStatus === 'success' && (
+        <div className="login-success fade-out">Login successful!</div>
+      )}
+      {loginStatus === 'error' && (
+        <div className="login-error fade-out">Login failed. Please check your credentials.</div>
+      )}
 
     </Form>
   );
