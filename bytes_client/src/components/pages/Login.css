@@ -66,3 +66,17 @@
   display: flex;
   align-items: center;
 }
+
+/* change password */
+.password-message {
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+.password-success {
+  color: #28a745;
+}
+
+.password-error {
+  color: #dc3545;
+}

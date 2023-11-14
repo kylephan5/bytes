@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./Navbar.css";
 import { NavLink } from 'react-router-dom';
 
-function Navbar({isLoggedIn}) {
+function Navbar({ isLoggedIn }) {
     const [menuClick, setMenuClick] = useState(false);
     const toggleMenu = () => setMenuClick(!menuClick);
     const closeMenu = () => setMenuClick(false);
@@ -38,11 +38,13 @@ function Navbar({isLoggedIn}) {
                                 RECIPES
                             </NavLink>
                         </li>
-                        <li className='nav-item'>
-                            <NavLink to='/login' className='nav-links' activeclassname='active' onClick={closeMenu}>
-                                LOGIN
-                            </NavLink>
-                        </li>
+                        {!isLoggedIn && (
+                            <li className='nav-item'>
+                                <NavLink to='/login' className='nav-links' activeClassName='active' onClick={closeMenu}>
+                                    LOGIN
+                                </NavLink>
+                            </li>
+                        )}
                         {/* <li className='nav-item'>
                             <Link to='/signup' className='nav-links' onClick={closemenu}>SIGNUP</Link>
                         </li> */}

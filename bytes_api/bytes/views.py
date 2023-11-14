@@ -8,7 +8,7 @@ from rest_framework.generics import UpdateAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from .models import Recipe
-# from .process_images import process_images
+from .process_images import process_images
 
 from .serializers import ImageUploadSerializer, ComputerVisionSerializer
 

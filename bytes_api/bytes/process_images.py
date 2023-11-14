@@ -7,10 +7,11 @@
 
 
 def process_images(image_files):
-    results = []
+    pass
+    # results = []
 
-    for image_file in image_files:
-        print(image_file)
+    # for image_file in image_files:
+    #     print(image_file)
 #         try:
 #             image = Image.open(image_file)
 #             image = image.resize((299, 299))

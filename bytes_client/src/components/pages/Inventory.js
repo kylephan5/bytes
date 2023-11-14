@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-// import '../../App.css';
 import './Inventory.css';
 import axios from "axios";
 
 function Inventory() {
   const [images, setImages] = useState([]);
   const [results, setResults] = useState([]);
-  const fileInputRef = React.createRef();
   const [searchTerm, setSearchTerm] = useState('');
+  const [typedItems, setTypedItems] = useState([]);
+  const fileInputRef = React.createRef();
+
 
   const handleDrop = (e) => {
     e.preventDefault();
@@ -61,6 +62,8 @@ function Inventory() {
   };
 
   const manualInput = () => {
+    setTypedItems([...typedItems, searchTerm]);
+    setSearchTerm('');
     axios
       .post('cv/', { searchTerm })
       .then(function (response) {
@@ -75,6 +78,12 @@ function Inventory() {
       .catch(function (error) {
         console.error('Error updating backend:', error);
       });
+  };
+
+  const handleRemoveTypedItem = (index) => {
+    const updatedTypedItems = [...typedItems];
+    updatedTypedItems.splice(index, 1);
+    setTypedItems(updatedTypedItems);
   };
 
   return (
@@ -110,14 +119,22 @@ function Inventory() {
       </div>
       <div className="manual-input">
         <h2>Input Inventory</h2>
-      <input
-        type="text"
-        placeholder="Type in items"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
-      <button className='add-input' onClick={manualInput}>Add</button>
-    </div>
+        {typedItems.map((item, index) => (
+          <div key={index} className="typed-item">
+            {item}
+            <button className="remove-button" onClick={() => handleRemoveTypedItem(index)}>
+              X
+            </button>
+          </div>
+        ))}
+        <input
+          type="text"
+          placeholder="Type in items"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <button className='add-input' onClick={manualInput}>Add</button>
+      </div>
       <div className="results">
         <h2>Analysis Results:</h2>
         <ul className='items'>
@@ -131,4 +148,3 @@ function Inventory() {
 }
 
 export default Inventory;
-
