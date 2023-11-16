@@ -135,14 +135,14 @@ function Inventory() {
         />
         <button className='add-input' onClick={manualInput}>Add</button>
       </div>
-      <div className="results">
+      {/* <div className="results">
         <h2>Analysis Results:</h2>
         <ul className='items'>
           {results.map((result, index) => (
             <li key={index}>{result}</li>
           ))}
         </ul>
-      </div>
+      </div> */}
     </div>
   );
 }
