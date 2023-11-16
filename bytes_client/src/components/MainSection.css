@@ -52,11 +52,18 @@
     justify-content: flex-end;
 }
 
-.food-image img {
+/* .food-image img {
     width: 600px;
     height: 600px;
     padding-right: 200px;
     padding-top: 120px;
+} */
+
+.BytesVid{
+    width: auto;
+    height: 750px;
+    padding-right: 120px;
+    padding-top: 80px;
 }
 
 .how-does-it-work {

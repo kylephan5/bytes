@@ -40,7 +40,8 @@ function MainSection() {
           </div>
         </div>
         <div className='food-image'>
-          <img src="/images/foodImage.jpeg" alt="FoodImage" />
+          {/* <img src="/images/foodImage.jpeg" alt="FoodImage" /> */}
+          <video src='/images/bytes_vid.mp4' loop autoPlay muted className="BytesVid" />
         </div>
       </div>
     </>
