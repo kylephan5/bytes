@@ -1,5 +1,12 @@
 .inventory-container {
     display: flex;
+    justify-content: space-around;
+    margin: 50px;
+}
+
+.left-container {
+    flex: 1;
+    display: flex;
     flex-direction: column;
     align-items: center;
 }
@@ -8,11 +15,14 @@
     border: 2px dashed #ccc;
     padding-top: 50px;
     padding-bottom: 50px;
-    padding-left: 200px;
-    padding-right: 200px;
+    padding-left: 100px;
+    padding-right: 100px;
     text-align: center;
     cursor: pointer;
-    margin: 50px;
+    margin: 20px;
+    margin-left: 200px;
+    margin-top: 50px;
+    height: 100px;
 }
 
 .image-preview {
@@ -30,9 +40,22 @@
     margin: 5px;
 }
 
+.left-container button {
+    margin-top: 10px;
+}
+
+.right-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 20px;
+}
+
 .manual-input {
-    margin: 20px;
     text-align: center;
+    margin: 20px;
+    margin-right: 300px;
 }
 
 .manual-input h2 {
@@ -82,4 +105,21 @@
 
 .add-input:hover {
     background-color: #45a049;
+}
+
+.results {
+    margin: 20px;
+}
+
+.results h2 {
+    margin-bottom: 10px;
+}
+
+.items {
+    list-style: none;
+    padding: 0;
+}
+
+.items li {
+    margin-bottom: 5px;
 }
