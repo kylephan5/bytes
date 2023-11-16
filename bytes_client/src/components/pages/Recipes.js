@@ -15,6 +15,8 @@ function Recipes() {
         nut_friendly: false,
         shellfish_friendly: false,
     });
+    const [currentPage, setCurrentPage] = useState(1);
+    const recipesPerPage = 15;
 
     const handleFilterChange = (filterName) => {
         const updatedFilters = {
@@ -22,15 +24,13 @@ function Recipes() {
             [filterName]: !filters[filterName],
         };
         setFilters(updatedFilters);
-        console.log(updatedFilters);
-
-        fetchRecipes({ ...updatedFilters, search: searchQuery });
+        setCurrentPage(1);
+        fetchRecipes({ ...updatedFilters, search: searchQuery, page: 1 });
     };
 
-
     useEffect(() => {
-        fetchRecipes({ ...filters, search: searchQuery });
-    }, [searchQuery]);
+        fetchRecipes({ ...filters, search: searchQuery, page: currentPage });
+    }, [searchQuery, currentPage]);
 
     const fetchRecipes = async (currentFilters) => {
         try {
@@ -43,6 +43,53 @@ function Recipes() {
 
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
+        setCurrentPage(1);
+    };
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
+    const handleNextPage = () => {
+        const nextPage = currentPage + 1;
+        if (nextPage <= Math.ceil(recipes.length / recipesPerPage)) {
+            setCurrentPage(nextPage);
+        }
+    };
+
+    const handlePreviousPage = () => {
+        const previousPage = currentPage - 1;
+        if (previousPage >= 1) {
+            setCurrentPage(previousPage);
+        }
+    };
+
+    const handleJumpToStart = () => {
+        setCurrentPage(1);
+    };
+
+    const handleJumpToEnd = () => {
+        const lastPage = Math.ceil(recipes.length / recipesPerPage);
+        setCurrentPage(lastPage);
+    };
+
+    const totalRecipes = recipes.length;
+    const indexOfLastRecipe = currentPage * recipesPerPage;
+    const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
+    const currentRecipes = recipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
+
+    const renderPagination = () => {
+        return (
+            <div className="pagination-bar">
+                <button onClick={handleJumpToStart}>&lt;&lt;</button>
+                <button onClick={handlePreviousPage}>&lt;</button>
+                <span className="page-indicator">
+                    Page {currentPage} of {Math.ceil(totalRecipes / recipesPerPage)}
+                </span>
+                <button onClick={handleNextPage}>&gt;</button>
+                <button onClick={handleJumpToEnd}>&gt;&gt;</button>
+            </div>
+        );
     };
 
     return (
@@ -71,7 +118,7 @@ function Recipes() {
             </div>
 
             <div className="recipe-cards">
-                {recipes.map((recipe) => (
+                {currentRecipes.map((recipe) => (
                     <div key={recipe.recipe_id} className="recipe-card">
                         <h2>{recipe.recipe_name}</h2>
                         <p>
@@ -87,6 +134,8 @@ function Recipes() {
                     </div>
                 ))}
             </div>
+
+            {renderPagination()}
         </div>
     );
 }
