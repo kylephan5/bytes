@@ -62,13 +62,16 @@ function Inventory() {
   };
 
   const manualInput = () => {
-    setTypedItems([...typedItems, searchTerm]);
+    const newTypedItems = [...typedItems, searchTerm];
+    setTypedItems(newTypedItems);
+    console.log('Typed Items:', newTypedItems);
+
     setSearchTerm('');
+
     axios
-      .post('cv/', { searchTerm })
+      .post('manual_input/', { items: [searchTerm] })
       .then(function (response) {
         if (response.status === 200) {
-          console.log('Backend updated successfully');
           const data = response.data;
           setResults(data.items);
         } else {
@@ -79,6 +82,7 @@ function Inventory() {
         console.error('Error updating backend:', error);
       });
   };
+
 
   const handleRemoveTypedItem = (index) => {
     const updatedTypedItems = [...typedItems];

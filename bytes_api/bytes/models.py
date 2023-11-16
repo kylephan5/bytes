@@ -48,7 +48,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
 
 class Inventory(models.Model):
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE) # each inventory should be assigned to a specific user
+    # each inventory should be assigned to a specific user
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     ingredient = models.CharField(max_length=75)
 
     def __str__(self):
@@ -67,6 +68,8 @@ class Recipe(models.Model):
     nut_friendly = models.BooleanField(default=True)
     shellfish_friendly = models.BooleanField(default=True)
 
+    # ingredients = models.JSONField(default=list)
+
     def __str__(self):
         return self.recipe_name
 
@@ -78,7 +81,3 @@ class RecipeIngredient(models.Model):
 
     def __str__(self):
         return self.recipe_ingredient
-
-
-
-

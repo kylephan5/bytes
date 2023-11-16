@@ -5,6 +5,11 @@ from django.contrib.auth import authenticate
 from .models import Recipe
 
 
+class ManualInputSerializer(serializers.Serializer):
+    items = serializers.ListField(
+        child=serializers.CharField(), write_only=True)
+
+
 class ImageUploadSerializer(serializers.Serializer):
     images = serializers.ListField(
         child=serializers.ImageField(), write_only=True)

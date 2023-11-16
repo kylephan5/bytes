@@ -7,12 +7,37 @@ from rest_framework.views import APIView
 from rest_framework.generics import UpdateAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from .models import Recipe
+from .models import Recipe, Inventory
 from .process_images import process_images
 
-from .serializers import ImageUploadSerializer, ComputerVisionSerializer
-
 # Create your views here.
+
+
+class ManualInputView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = ManualInputSerializer(data=request.data)
+
+        if serializer.is_valid():
+            items = serializer.validated_data['items']
+
+            # Retrieve the inventory for the currently logged-in user
+            user_inventory = Inventory.objects.filter(user=request.user)
+
+            # Update or create inventory items for the currently logged-in user
+            for item in items:
+                user_inventory_item, created = Inventory.objects.get_or_create(
+                    user=request.user, ingredient=item
+                )
+
+            # You can perform any processing or validation here
+            # For now, let's assume that the items are directly the results
+            results = items
+
+            return Response({'items': results}, status=status.HTTP_200_OK)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ComputerVisionView(APIView):
