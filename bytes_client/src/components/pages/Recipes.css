@@ -14,16 +14,30 @@
     padding: 0;
 }
 
+.filter-boxes{
+    display: grid;
+    grid-template-columns: auto auto auto auto auto auto auto;
+    gap: 40px;
+    margin-bottom: 10px;
+}
+
 /* Style for each recipe card */
 .recipe-card {
     border: 1px solid #ccc;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 10px;
     text-align: center;
-    height: 200px;
+    height: 240px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+}
+
+.recipe-image{
+    width: 150px;
+    height:120px;
+    align-items: center;
+    padding-left: 30px;
 }
 
 .recipe-card h2 {

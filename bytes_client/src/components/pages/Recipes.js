@@ -105,6 +105,7 @@ function Recipes() {
 
             <div className="filter-section">
                 <h3>Filters:</h3>
+                <div className='filter-boxes'>
                 {Object.keys(filters).map((filterName) => (
                     <label key={filterName}>
                         <input
@@ -115,12 +116,14 @@ function Recipes() {
                         {filterName.replace('Friendly', '').replace(/([A-Z])/g, ' $1').trim()}
                     </label>
                 ))}
+                </div>
             </div>
 
             <div className="recipe-cards">
                 {currentRecipes.map((recipe) => (
                     <div key={recipe.recipe_id} className="recipe-card">
                         <h2>{recipe.recipe_name}</h2>
+                        <img src='/images/recipe.png' alt="recipe-image" className="recipe-image" />
                         <p>
                             Recipe URL:{' '}
                             <a
