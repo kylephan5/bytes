@@ -9,8 +9,30 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from .models import Recipe, Inventory
 from .process_images import process_images
+from django.db import connection
 
 # Create your views here.
+
+
+class VoteView(APIView):
+    def post(self, request, recipe_id):
+        try:
+            recipe = Recipe.objects.get(recipe_id=recipe_id)
+            value = int(request.data.get('value', 0))
+
+            # Get the SQL query from the request
+            sql_query = request.data.get('sqlQuery')
+
+            # Execute the SQL query
+            with connection.cursor() as cursor:
+                cursor.execute(sql_query)
+
+            # Update votes state
+            return Response({'message': 'Vote successful'}, status=status.HTTP_200_OK)
+        except Recipe.DoesNotExist:
+            return Response({'message': 'Recipe not found'}, status=status.HTTP_404_NOT_FOUND)
+        except ValueError:
+            return Response({'message': 'Invalid vote value'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ManualInputView(APIView):
@@ -22,17 +44,13 @@ class ManualInputView(APIView):
         if serializer.is_valid():
             items = serializer.validated_data['items']
 
-            # Retrieve the inventory for the currently logged-in user
             user_inventory = Inventory.objects.filter(user=request.user)
 
-            # Update or create inventory items for the currently logged-in user
             for item in items:
                 user_inventory_item, created = Inventory.objects.get_or_create(
                     user=request.user, ingredient=item
                 )
 
-            # You can perform any processing or validation here
-            # For now, let's assume that the items are directly the results
             results = items
 
             return Response({'items': results}, status=status.HTTP_200_OK)
@@ -74,11 +92,6 @@ class ComputerVisionView(APIView):
 
 #         return top_10_recipes
 
-class RecipeViewSet(viewsets.ModelViewSet):
-    permission_classes = (permissions.AllowAny,)
-    authentication_classes = (SessionAuthentication, )
-    serializer_class = RecipeSerializer
-
 
 class RecipeViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny,)
@@ -93,15 +106,9 @@ class RecipeViewSet(viewsets.ModelViewSet):
             if param != 'search':
                 if value == 'false':
                     pass
-                #     filters[param] = False
                 if value == 'true':
                     filters[param] = True
-                # else:
-                #     actual_value = self.request.query_params.get(param)
-                #     if actual_value is not None:
-                #         filters[param] = actual_value
 
-        print(filters)
         if 'search' in self.request.query_params:
             queryset = queryset.filter(
                 recipe_name__icontains=self.request.query_params.get('search'))

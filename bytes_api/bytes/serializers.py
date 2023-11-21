@@ -24,7 +24,7 @@ class RecipeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recipe
         fields = ('recipe_id', 'recipe_name', 'recipe_url', 'gluten_friendly', 'vegan_friendly',
-                  'vegetarian_friendly', 'lactose_friendly', 'keto_friendly', 'nut_friendly', 'shellfish_friendly')
+                  'vegetarian_friendly', 'lactose_friendly', 'keto_friendly', 'nut_friendly', 'shellfish_friendly', 'votes')
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):

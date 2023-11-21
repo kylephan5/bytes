@@ -67,6 +67,7 @@ class Recipe(models.Model):
     keto_friendly = models.BooleanField(default=True)
     nut_friendly = models.BooleanField(default=True)
     shellfish_friendly = models.BooleanField(default=True)
+    votes = models.IntegerField(default=0)
 
     # ingredients = models.JSONField(default=list)
 
