@@ -64,15 +64,14 @@ function Recipes() {
         }
     };
 
-
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
         setCurrentPage(1);
     };
 
-    const handlePageChange = (pageNumber) => {
-        setCurrentPage(pageNumber);
-    };
+    // const handlePageChange = (pageNumber) => {
+    //     setCurrentPage(pageNumber);
+    // };
 
     const handleNextPage = () => {
         const nextPage = currentPage + 1;

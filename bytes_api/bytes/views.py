@@ -15,19 +15,18 @@ from django.db import connection
 
 
 class VoteView(APIView):
+    # permission_classes = [IsAuthenticated]
+
     def post(self, request, recipe_id):
         try:
             recipe = Recipe.objects.get(recipe_id=recipe_id)
             value = int(request.data.get('value', 0))
 
-            # Get the SQL query from the request
             sql_query = request.data.get('sqlQuery')
 
-            # Execute the SQL query
             with connection.cursor() as cursor:
                 cursor.execute(sql_query)
 
-            # Update votes state
             return Response({'message': 'Vote successful'}, status=status.HTTP_200_OK)
         except Recipe.DoesNotExist:
             return Response({'message': 'Recipe not found'}, status=status.HTTP_404_NOT_FOUND)
