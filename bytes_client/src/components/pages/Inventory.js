@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import './Inventory.css';
 import axios from "axios";
 
+// function components
 function Inventory() {
+  // State Hooks
   const [images, setImages] = useState([]);
   const [results, setResults] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [typedItems, setTypedItems] = useState([]);
   const fileInputRef = React.createRef();
-
 
   const handleDrop = (e) => {
     e.preventDefault();
@@ -75,15 +76,14 @@ function Inventory() {
           const data = response.data;
           setResults(data.items);
         } else {
-          console.error('Error updating backend :(');
+          console.error('Error updating backend :(', response.statusText);
         }
       })
       .catch(function (error) {
-        console.error('Error updating backend:', error);
+        console.error('Error updating backend:', error.response.data);
       });
   };
-
-
+  
   const handleRemoveTypedItem = (index) => {
     const updatedTypedItems = [...typedItems];
     updatedTypedItems.splice(index, 1);
