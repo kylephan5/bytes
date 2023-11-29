@@ -33,13 +33,19 @@ function Recipes() {
         fetchRecipes({ ...filters, search: searchQuery, page: currentPage });
     }, [searchQuery, currentPage]);
 
+
     const fetchRecipes = async (currentFilters) => {
         try {
-            const response = await axios.get('recipes/', { params: currentFilters });
-            setRecipes(response.data);
+            const response = await axios.get('recipes/', {
+                params: currentFilters,
+            });
+
+            const sortedRecipes = response.data.sort((a, b) => b.votes - a.votes);
+
+            setRecipes(sortedRecipes);
 
             const votesData = {};
-            response.data.forEach((recipe) => {
+            sortedRecipes.forEach((recipe) => {
                 votesData[recipe.recipe_id] = recipe.votes;
             });
             setVotes(votesData);
