@@ -49,7 +49,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
 class Inventory(models.Model):
     # each inventory should be assigned to a specific user
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    email = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     ingredient = models.CharField(max_length=75)
 
     def __str__(self):
@@ -82,3 +82,8 @@ class RecipeIngredient(models.Model):
 
     def __str__(self):
         return self.recipe_ingredient
+
+
+# RecipeIngredient is used as a skinny table to join Recipe and inventory
+# RecipeIgredient joins with recipe on recipe_id
+# RecipeIngredient joins with inventory on ingredient

@@ -207,3 +207,32 @@ class ProfileView(APIView):
     def get(self, request):
         serializer_class = CustomUserSerializer(request.user)
         return Response({'user': serializer_class.data}, status=status.HTTP_200_OK)
+
+
+# Reccomend Recipes Based on Inventory, 1st Advanced Function
+class RecipeRecomendation(APIView):
+    # Query table Inventry for all entries that have the logged in users email (email part of primary key)
+   def get(self, request):
+        # Assuming the user is logged in
+        user_email = request.user.email
+
+        # Query  Inventory table for entries with the logged-in user's email
+        inventory_entries = Inventory.objects.filter(email=user_email)
+
+        # Join with the RecipeIngredient table on the ingredient attribute
+        recipe_counts = RecipeIngredient.objects.filter(recipe__in=inventory_entries.values('recipe')) \
+            .values('recipe') \
+            .annotate(count=Count('recipe')) \
+            .order_by('-count')[:10]  # Limit to the top 10 recipes
+
+        # Extract the recipe IDs with the most ingredients matched
+        recommended_recipe_ids = [entry['recipe'] for entry in recipe_counts]
+        print(recommended_recipe_ids)
+
+        # Filer recipes by reccomend recipe IDs
+        recommended_recipes = Recipe.objects.filter(recipe_id__in=recommended_recipe_ids)
+
+        # Serialize data and return response
+        serializer = RecipeSerializer(recommended_recipes, many=True)
+        return Response({'recommended_recipes': serializer.data})
+ 
