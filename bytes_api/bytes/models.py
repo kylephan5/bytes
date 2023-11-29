@@ -34,7 +34,7 @@ class CustomUserManager(BaseUserManager):
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(unique=True)
+    email = models.EmailField(primary_key=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
 
@@ -48,12 +48,12 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
 
 class Inventory(models.Model):
-    # each inventory should be assigned to a specific user
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    email = models.OneToOneField(
+        CustomUser, on_delete=models.CASCADE, primary_key=True)
     ingredient = models.CharField(max_length=75)
 
     def __str__(self):
-        return self.user
+        return str(self.email)
 
 
 class Recipe(models.Model):
@@ -77,7 +77,7 @@ class Recipe(models.Model):
 
 class RecipeIngredient(models.Model):
     recipe = models.ForeignKey(Recipe, default=0,
-                               on_delete=models.CASCADE)  # if a recipe is deleted, all of the items inside of recipe ingredient will be deleted
+                               on_delete=models.CASCADE)
     recipe_ingredient = models.CharField(max_length=100)
 
     def __str__(self):

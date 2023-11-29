@@ -43,11 +43,9 @@ class ManualInputView(APIView):
         if serializer.is_valid():
             items = serializer.validated_data['items']
 
-            user_inventory = Inventory.objects.filter(user=request.user)
-
             for item in items:
                 user_inventory_item, created = Inventory.objects.get_or_create(
-                    user=request.user, ingredient=item
+                    email=request.user, ingredient=item
                 )
 
             results = items
@@ -75,21 +73,6 @@ class ComputerVisionView(APIView):
                 return Response(result_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-# class RecipeViewSet(viewsets.ModelViewSet):
-#     permission_classes = (permissions.AllowAny,)
-#     authentication_classes = (SessionAuthentication, )
-
-#     serializer_class = RecipeSerializer
-#     queryset = Recipe.objects.all()
-
-#     def get_queryset(self):
-#         queryset = super().get_queryset()
-#         top_10_recipes = queryset.order_by('recipe_id')[:10]
-#         print(self.request.query_params)
-
-#         return top_10_recipes
 
 
 class RecipeViewSet(viewsets.ModelViewSet):
