@@ -39,20 +39,27 @@ function Signup({ setIsLoggedIn }) {
       .then(function (response) {
         console.log('signed in');
         setIsLoggedIn(true);
-        setLoginStatus('success'); // Set login status to success
+        setLoginStatus('success');
         navigate('/profile');
         setTimeout(() => {
-          setLoginStatus(''); // Remove login status after 3 seconds
+          setLoginStatus('');
         }, 3000);
+
+        setFormData({
+          email: '',
+          password: '',
+        });
       })
       .catch(function (error) {
         console.error(error);
-        setLoginStatus('error'); // Set login status to error
+        setLoginStatus('error');
         setTimeout(() => {
-          setLoginStatus(''); // Remove login status after 3 seconds
+          setLoginStatus('');
         }, 3000);
+
       });
   };
+
 
 
   return (

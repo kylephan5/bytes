@@ -30,7 +30,7 @@ class RecipeSerializer(serializers.ModelSerializer):
 class UserRegistrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ('id', 'email', 'password', 'is_superuser')
+        fields = ('email', 'password', 'is_superuser')
 
     def create(self, validated_data):
         password = validated_data.pop('password')

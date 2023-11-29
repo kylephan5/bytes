@@ -43,6 +43,11 @@ function Profile(props) {
                 })
                     .then(function (response) {
                         setPasswordChangeMessage('Password changed successfully.');
+
+                        setOldPassword('');
+                        setNewPassword('');
+                        setConfirmNewPassword('');
+
                         setTimeout(() => {
                             setPasswordChangeMessage('');
                         }, 3000);
@@ -63,7 +68,6 @@ function Profile(props) {
                 }, 3000);
             });
     }
-
     useEffect(() => {
         axios.get('profile/')
             .then(function (response) {
