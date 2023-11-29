@@ -69,10 +69,11 @@ class Recipe(models.Model):
     shellfish_friendly = models.BooleanField(default=True)
     votes = models.IntegerField(default=0)
 
-    # ingredients = models.JSONField(default=list)
-
     def __str__(self):
         return self.recipe_name
+
+    class Meta:
+        db_table = 'bytes_recipe'
 
 
 class RecipeIngredient(models.Model):
@@ -81,4 +82,11 @@ class RecipeIngredient(models.Model):
     recipe_ingredient = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.recipe_ingredient
+        return f"Recipe ID: {self.recipe_id} - Ingredient: {self.ingredient}"
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['recipe_id', 'ingredient'], name='unique_recipe_ingredient')
+        ]
+        db_table = 'bytes_recipe_ingredients'

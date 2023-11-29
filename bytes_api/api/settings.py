@@ -66,7 +66,8 @@ CORS_ALLOWED_ORIGINS = [
     'https://bytes.ndlug.org',
 ]
 
-CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:3000', 'http://127.0.0.1','https://bytes.ndlug.org' ]
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:3000',
+                        'http://127.0.0.1', 'https://bytes.ndlug.org']
 
 SESSION_COOKIE_SECURE = True  # Set to True if using HTTPS
 SESSION_COOKIE_SAMESITE = 'None'
@@ -103,6 +104,9 @@ DATABASES = {
         'PASSWORD': os.getenv('DB_PASSWORD'),
         'HOST': 'bytes.c2kae706vp3d.us-east-2.rds.amazonaws.com',
         'PORT': '3306',
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        },
     }
 }
 
@@ -113,12 +117,12 @@ DATABASES = {
 AUTH_USER_MODEL = "bytes.CustomUser"
 
 REST_FRAMEWORK = {
-   'DEFAULT_AUTHENTICATION_CLASSES': (
-       'rest_framework.authentication.SessionAuthentication',
-   ),
-   'DEFAULT_PERMISSION_CLASSES': (
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
-   ),
+    ),
 }
 
 # Internationalization
