@@ -89,7 +89,14 @@ class RecipeIngredient(models.Model):
     ingredient = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.recipe_ingredient
+        return f"Recipe ID: {self.recipe} - Ingredient: {self.ingredient}"
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['recipe', 'ingredient'], name='unique_recipe_ingredient')
+        ]
+        db_table = 'bytes_recipe_ingredients'
 
 class UserPreferences(models.Model):
     #email = models.EmailField(primary_key=True)
