@@ -48,12 +48,19 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
 
 class Inventory(models.Model):
-    email = models.OneToOneField(
-        CustomUser, on_delete=models.CASCADE, primary_key=True)
+    email = models.ForeignKey(
+        CustomUser, on_delete=models.CASCADE)
     ingredient = models.CharField(max_length=75)
 
     def __str__(self):
         return str(self.email)
+
+    class Meta:
+            constraints = [
+                models.UniqueConstraint(
+                    fields=['email', 'ingredient'], name='unique_email_ingredient')
+            ]
+            db_table = 'bytes_inventory'
 
 
 class Recipe(models.Model):
@@ -69,16 +76,24 @@ class Recipe(models.Model):
     shellfish_friendly = models.BooleanField(default=True)
     votes = models.IntegerField(default=0)
 
-    # ingredients = models.JSONField(default=list)
-
     def __str__(self):
         return self.recipe_name
+
+    class Meta:
+        db_table = 'bytes_recipe'
 
 
 class RecipeIngredient(models.Model):
     recipe = models.ForeignKey(Recipe, default=0,
                                on_delete=models.CASCADE)
-    recipe_ingredient = models.CharField(max_length=100)
+    ingredient = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.recipe_ingredient
+        return f"Recipe ID: {self.recipe} - Ingredient: {self.ingredient}"
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['recipe', 'ingredient'], name='unique_recipe_ingredient')
+        ]
+        db_table = 'bytes_recipe_ingredients'
