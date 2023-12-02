@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from bytes.views import UserRegister, UserLogin, UserLogout, UserChangePassword, ProfileView, AllUsers, RecipeViewSet, ComputerVisionView, ManualInputView, VoteView
+from bytes.views import UserRegister, UserLogin, UserLogout, UserChangePassword, ProfileView, AllUsers, RecipeViewSet, ComputerVisionView, ManualInputView, VoteView, GetInventoryView, DeleteItemView
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
@@ -32,7 +32,9 @@ urlpatterns = [
     path('bytes_api/profile/', ProfileView.as_view()),
     path('bytes_api/change_password/', UserChangePassword.as_view()),
     path('bytes_api/cv/', ComputerVisionView.as_view()),
-    path('bytes_api/manual_input/', ManualInputView.as_view()),
     path('bytes_api/recipes/<int:recipe_id>/vote/', VoteView.as_view()),
+    path('bytes_api/manual_input/', ManualInputView.as_view()),
+    path('bytes_api/get_inventory/', GetInventoryView.as_view()),
+    path('bytes_api/delete_item/', DeleteItemView.as_view()),
 
 ]

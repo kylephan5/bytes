@@ -2,12 +2,19 @@ from .models import CustomUser
 from rest_framework import serializers
 from django.contrib.auth import authenticate
 
-from .models import Recipe
+from .models import Recipe, Inventory
+
+
+class InventorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Inventory
+        fields = ('ingredient',)
 
 
 class ManualInputSerializer(serializers.Serializer):
-    items = serializers.ListField(
-        child=serializers.CharField(), write_only=True)
+    class Meta:
+        model = Inventory
+        fields = ('email', 'ingredient')
 
 
 class ImageUploadSerializer(serializers.Serializer):
