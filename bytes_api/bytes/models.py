@@ -89,11 +89,18 @@ class RecipeIngredient(models.Model):
     ingredient = models.CharField(max_length=100)
 
     def __str__(self):
-        return f"Recipe ID: {self.recipe} - Ingredient: {self.ingredient}"
+        return self.recipe_ingredient
 
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(
-                fields=['recipe', 'ingredient'], name='unique_recipe_ingredient')
-        ]
-        db_table = 'bytes_recipe_ingredients'
+class UserPreferences(models.Model):
+    #email = models.EmailField(primary_key=True)
+    email = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True)
+    gluten_free = models.BooleanField(default=False)
+    is_vegan = models.BooleanField(default=False)
+    is_vegetarian = models.BooleanField(default=False)
+    is_lactose_intolerant = models.BooleanField(default=False)
+    is_keto = models.BooleanField(default=False)
+    nut_allergy = models.BooleanField(default=False)
+    shellfish_allergy = models.BooleanField(default=False)
+  
+    def __str__(self):
+        return self.email
