@@ -13,6 +13,21 @@ from django.db import connection, IntegrityError
 # Create your views here.
 
 
+class DeleteItemView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        email = request.user.email
+        item_to_delete = request.data.get('item', '')
+
+        try:
+            Inventory.objects.filter(
+                email=email, ingredient=item_to_delete).delete()
+            return Response({'message': 'Item deleted successfully.'}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'error': f'Error deleting item: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
 class GetInventoryView(APIView):
     permission_classes = [IsAuthenticated]
 

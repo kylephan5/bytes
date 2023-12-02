@@ -19,7 +19,7 @@ function Inventory() {
         const response = await axios.get('get_inventory/');
         if (response.status === 200) {
           const data = response.data;
-          setResults(data.items);
+          setTypedItems(data[Object.keys(data)[0]]);
         } else {
           console.error('Error fetching existing items:', response.statusText);
         }
@@ -30,6 +30,8 @@ function Inventory() {
 
     fetchExistingItems();
   }, []);
+
+
 
   const handleDrop = (e) => {
     e.preventDefault();
@@ -99,11 +101,21 @@ function Inventory() {
     }
   };
 
-  const handleRemoveTypedItem = (index) => {
-    const updatedTypedItems = [...typedItems];
-    updatedTypedItems.splice(index, 1);
-    setTypedItems(updatedTypedItems);
+  // Delete item in inventory
+  const handleRemoveTypedItem = async (index) => {
+    const itemToRemove = typedItems[index];
+
+    try {
+      await axios.post('delete_item/', { item: itemToRemove });
+
+      const updatedTypedItems = [...typedItems];
+      updatedTypedItems.splice(index, 1);
+      setTypedItems(updatedTypedItems);
+    } catch (error) {
+      console.error('Error deleting item:', error.response ? error.response.data : error.message);
+    }
   };
+
 
   return (
     <div className="inventory-container">
