@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Inventory.css';
 import axios from "axios";
 
@@ -10,6 +10,26 @@ function Inventory() {
   const [searchTerm, setSearchTerm] = useState('');
   const [typedItems, setTypedItems] = useState([]);
   const fileInputRef = React.createRef();
+
+
+  // fetch user's inventory items
+  useEffect(() => {
+    const fetchExistingItems = async () => {
+      try {
+        const response = await axios.get('get_inventory/');
+        if (response.status === 200) {
+          const data = response.data;
+          setResults(data.items);
+        } else {
+          console.error('Error fetching existing items:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error fetching existing items:', error.response ? error.response.data : error.message);
+      }
+    };
+
+    fetchExistingItems();
+  }, []);
 
   const handleDrop = (e) => {
     e.preventDefault();
@@ -62,28 +82,23 @@ function Inventory() {
       });
   };
 
-  const manualInput = () => {
+  const manualInput = async () => {
     const newTypedItems = [...typedItems, searchTerm];
     setTypedItems(newTypedItems);
-    console.log('Typed Items:', newTypedItems);
-
     setSearchTerm('');
 
-    axios
-      .post('manual_input/', { items: [searchTerm] })
-      .then(function (response) {
-        if (response.status === 200) {
-          const data = response.data;
-          setResults(data.items);
-        } else {
-          console.error('Error updating backend :(', response.statusText);
-        }
-      })
-      .catch(function (error) {
-        console.error('Error updating backend:', error.response.data);
-      });
+    try {
+      const response = await axios.post('manual_input/', { items: [searchTerm] });
+      if (response.status === 200) {
+        const data = response.data;
+      } else {
+        console.error('Error updating backend :(', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error updating backend:', error.response ? error.response.data : error.message);
+    }
   };
-  
+
   const handleRemoveTypedItem = (index) => {
     const updatedTypedItems = [...typedItems];
     updatedTypedItems.splice(index, 1);

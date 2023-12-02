@@ -9,9 +9,24 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from .models import Recipe, Inventory
 from .process_images import process_images
-from django.db import connection
-
+from django.db import connection, IntegrityError
 # Create your views here.
+
+
+class GetInventoryView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        try:
+            existing_items = Inventory.objects.filter(email=request.user)
+            serializer = InventorySerializer(existing_items, many=True)
+
+            inventory_data = {str(request.user): [
+                item['ingredient'] for item in serializer.data]}
+            return Response(inventory_data, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class VoteView(APIView):
@@ -38,21 +53,20 @@ class ManualInputView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        serializer = ManualInputSerializer(data=request.data)
+        items = request.data.get('items', [])
 
-        if serializer.is_valid():
-            items = serializer.validated_data['items']
-
+        try:
             for item in items:
-                user_inventory_item, created = Inventory.objects.get_or_create(
-                    email=request.user, ingredient=item
+                user_inventory_item, created = Inventory.objects.update_or_create(
+                    email=request.user, ingredient=item,
+                    defaults={'ingredient': item}
                 )
+        except IntegrityError:
+            pass
 
-            results = items
+        results = items
 
-            return Response({'items': results}, status=status.HTTP_200_OK)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'items': results}, status=status.HTTP_200_OK)
 
 
 class ComputerVisionView(APIView):
