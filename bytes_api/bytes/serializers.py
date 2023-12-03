@@ -22,9 +22,9 @@ class ImageUploadSerializer(serializers.Serializer):
         child=serializers.ImageField(), write_only=True)
 
 
-class ComputerVisionSerializer(serializers.Serializer):
-    items = serializers.ListField(
-        child=serializers.CharField(), read_only=True)
+# class ComputerVisionSerializer(serializers.Serializer):
+#     items = serializers.ListField(
+#         child=serializers.CharField(), read_only=True)
 
 
 class RecipeSerializer(serializers.ModelSerializer):

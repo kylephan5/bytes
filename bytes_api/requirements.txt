@@ -14,3 +14,4 @@ pytz==2023.3.post1
 PyYAML==6.0.1
 sqlparse==0.4.4
 virtualenv==20.24.5
+Pillow==10.1.0

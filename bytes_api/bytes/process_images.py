@@ -1,33 +1,71 @@
-# # import tensorflow as tf
-# import numpy as np
-# from PIL import Image
-# import io
+import os
+from PIL import Image
+import numpy as np
+import hashlib
 
-# model = tf.keras.applications.InceptionV3(weights='imagenet')
+# Directory to store uploaded images
+UPLOAD_DIR = 'uploaded_images'
+
+
+def calculate_hash(file_contents):
+    ''' hash image contents to prevent duplicate uploads'''
+    sha256_hash = hashlib.sha256()
+    sha256_hash.update(file_contents)
+    return sha256_hash.hexdigest()
 
 
 def process_images(image_files):
-    pass
-    # results = []
+    results = []
+    image_paths = []
 
-    # for image_file in image_files:
-    #     print(image_file)
-#         try:
-#             image = Image.open(image_file)
-#             image = image.resize((299, 299))
-#             image = np.array(image) / 255.0  # Normalize
+    # make upload directory if it doesn't exist
+    os.makedirs(UPLOAD_DIR, exist_ok=True)
 
-#             # InceptionV3 model
-#             # predictions = model.predict(np.expand_dims(image, axis=0))
-#             decoded_predictions = tf.keras.applications.inception_v3.decode_predictions(
-#                 predictions)
+    try:
+        # at least one image to be able to process
+        if not image_files:
+            raise ValueError("No image provided")
 
-#             top_prediction = decoded_predictions[0][0]
-#             food_item_name = top_prediction[1]
+        uploaded_hashes = set()
 
-#             results.append(f"Detected food item!: {food_item_name}")
+        for index, image_file in enumerate(image_files):
+            file_contents = image_file.read()
+            file_hash = calculate_hash(file_contents)
 
-#         except Exception as e:
-#             results.append(f"Error processing image??: {str(e)}")
+            # Check if the same image has already been uploaded
+            if file_hash in uploaded_hashes:
+                continue
 
-#     return results
+            uploaded_hashes.add(file_hash)
+
+            # make unique filename for each image
+            unique_filename = f"{file_hash}.jpg"
+            image_path = os.path.join(UPLOAD_DIR, unique_filename)
+            image_paths.append(image_path)
+
+            with open(image_path, 'wb') as f:
+                f.write(file_contents)
+
+            image = Image.open(image_path)
+            image = image.resize((299, 299))
+            image = np.array(image) / 255.0  # Normalize?
+
+            # TODO: image processing logic
+            analysis_result = perform_analysis(image)
+            results.append(f'{analysis_result}: {index}')
+
+    except Exception as e:
+        results.append(f"Error processing images: {str(e)}")
+
+    # delete images
+    finally:
+        for image_path in image_paths:
+            if os.path.exists(image_path):
+                os.remove(image_path)
+
+    return results
+
+
+def perform_analysis(image):
+    # TODO: KYLE CV
+    return "Placeholder Analysis Result"
