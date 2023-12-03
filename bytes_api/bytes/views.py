@@ -27,6 +27,15 @@ class ComputerVisionView(APIView):
 
             results = process_images(uploaded_images)
 
+            try:
+                for item in results:
+                    user_inventory_item, created = Inventory.objects.update_or_create(
+                        email=request.user, ingredient=item,
+                        defaults={'ingredient': item}
+                    )
+            except IntegrityError:
+                pass
+
             return Response({'items': results}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
