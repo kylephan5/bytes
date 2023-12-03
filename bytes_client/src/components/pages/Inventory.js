@@ -32,7 +32,6 @@ function Inventory() {
   }, []);
 
 
-
   const handleDrop = (e) => {
     e.preventDefault();
     const droppedFiles = Array.from(e.dataTransfer.files);
@@ -48,6 +47,35 @@ function Inventory() {
     setImages([...images, ...selectedFiles]);
   };
 
+  const processImages = async () => {
+    const formData = new FormData();
+    images.forEach((image, index) => {
+      formData.append(`images[${index}]`, image);
+    });
+
+    try {
+      const response = await axios.post('cv/', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      if (response.status === 200) {
+        const data = response.data;
+        const analysisResults = data.items || [];
+        setResults(analysisResults);
+
+        console.log('Analysis Results:', analysisResults);
+      } else {
+        console.error('Error processing images');
+      }
+
+    } catch (error) {
+      console.error('Error processing images:', error);
+    }
+  };
+
+
   const handleUploadClick = () => {
     fileInputRef.current.click();
   };
@@ -58,33 +86,12 @@ function Inventory() {
     setImages(updatedImages);
   };
 
-  const processImages = () => {
-    const formData = new FormData();
-    images.forEach((image, index) => {
-      formData.append('images', image);
-    });
-
-    axios
-      .post('cv/', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        }
-      })
-      .then(function (response) {
-        if (response.status === 200) {
-          console.log('image uploaded');
-          const data = response.data;
-          setResults(data.items);
-        } else {
-          console.error('Error processing images');
-        }
-      })
-      .catch(function (error) {
-        console.error('Error processing images:', error);
-      });
-  };
-
   const manualInput = async () => {
+    // do not allow duplicate entry
+    if (typedItems.includes(searchTerm)) {
+      return;
+    }
+
     const newTypedItems = [...typedItems, searchTerm];
     setTypedItems(newTypedItems);
     setSearchTerm('');

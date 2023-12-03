@@ -10,7 +10,25 @@ from rest_framework.permissions import IsAuthenticated
 from .models import Recipe, Inventory
 from .process_images import process_images
 from django.db import connection, IntegrityError
+from django.db.models import Count
+from rest_framework.parsers import MultiPartParser, FormParser
+
 # Create your views here.
+
+
+class ComputerVisionView(APIView):
+    parser_classes = (MultiPartParser, FormParser)
+
+    def post(self, request, *args, **kwargs):
+        serializer = ImageUploadSerializer(data=request.data)
+
+        if serializer.is_valid():
+            uploaded_images = serializer.validated_data['images']
+
+            results = process_images(uploaded_images)
+
+            return Response({'items': results}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class DeleteItemView(APIView):
@@ -82,26 +100,6 @@ class ManualInputView(APIView):
         results = items
 
         return Response({'items': results}, status=status.HTTP_200_OK)
-
-
-class ComputerVisionView(APIView):
-    def post(self, request):
-        serializer = ImageUploadSerializer(data=request.data)
-
-        if serializer.is_valid():
-            # WRITE COMPUTER VISION SCRIPT AND USE HERE
-            uploaded_images = serializer.validated_data['images']
-            # MAKE PROCESS_IMAGES
-            results = process_images(uploaded_images)
-
-            result_serializer = ComputerVisionSerializer(
-                data={'items': results})
-            if result_serializer.is_valid():
-                return Response(result_serializer.data, status=status.HTTP_200_OK)
-            else:
-                return Response(result_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class RecipeViewSet(viewsets.ModelViewSet):
