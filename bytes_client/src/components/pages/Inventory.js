@@ -11,23 +11,21 @@ function Inventory() {
   const [typedItems, setTypedItems] = useState([]);
   const fileInputRef = React.createRef();
 
-
-  // fetch user's inventory items
-  useEffect(() => {
-    const fetchExistingItems = async () => {
-      try {
-        const response = await axios.get('get_inventory/');
-        if (response.status === 200) {
-          const data = response.data;
-          setTypedItems(data[Object.keys(data)[0]]);
-        } else {
-          console.error('Error fetching existing items:', response.statusText);
-        }
-      } catch (error) {
-        console.error('Error fetching existing items:', error.response ? error.response.data : error.message);
+  const fetchExistingItems = async () => {
+    try {
+      const response = await axios.get('get_inventory/');
+      if (response.status === 200) {
+        const data = response.data;
+        setTypedItems(data[Object.keys(data)[0]]);
+      } else {
+        console.error('Error fetching existing items:', response.statusText);
       }
-    };
+    } catch (error) {
+      console.error('Error fetching existing items:', error.response ? error.response.data : error.message);
+    }
+  };
 
+  useEffect(() => {
     fetchExistingItems();
   }, []);
 
@@ -64,6 +62,9 @@ function Inventory() {
         const data = response.data;
         const analysisResults = data.items || [];
         setResults(analysisResults);
+
+        // Fetch and update inventory after processing images
+        await fetchExistingItems();
 
         console.log('Analysis Results:', analysisResults);
       } else {
@@ -173,14 +174,6 @@ function Inventory() {
         />
         <button className='add-input' onClick={manualInput}>Add</button>
       </div>
-      {/* <div className="results">
-        <h2>Analysis Results:</h2>
-        <ul className='items'>
-          {results.map((result, index) => (
-            <li key={index}>{result}</li>
-          ))}
-        </ul>
-      </div> */}
     </div>
   );
 }
