@@ -7,7 +7,6 @@ import Home from './components/pages/Home';
 import Profile from './components/pages/Profile';
 import Login from './components/pages/Login';
 import Signup from "./components/pages/Signup";
-import Recommendations from './components/pages/Recommendations';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import axios from "axios";
 
@@ -29,13 +28,12 @@ function App() {
     <Router>
       <Navbar isLoggedIn={isLoggedIn} />
       <Routes>
-        <Route path='/profile' element={<Profile isLoggedIn={isLoggedIn} />} />
+        <Route path='/profile' element={<Profile isLoggedIn={isLoggedIn}/>} />
         <Route path='/' element={<Home />} />
         <Route path='/inventory' element={<Inventory />} />
         <Route path='/recipes' element={<Recipes />} />
         <Route path='/login' element={<Login setIsLoggedIn={setIsLoggedIn} />} />
         <Route path='/signup' element={<Signup />} />
-        <Route path='/recommendations' element={<Recommendations />} />
       </Routes>
     </Router>
   );

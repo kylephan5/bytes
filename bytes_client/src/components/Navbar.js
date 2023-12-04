@@ -38,13 +38,6 @@ function Navbar({ isLoggedIn }) {
                                 RECIPES
                             </NavLink>
                         </li>
-                        {isLoggedIn && (
-                            <li className='nav-item'>
-                                <NavLink to='/recommendations' className='nav-links' activeClassName='active' onClick={closeMenu}>
-                                    RECOMMENDATIONS
-                                </NavLink>
-                            </li>
-                        )}
                         {!isLoggedIn && (
                             <li className='nav-item'>
                                 <NavLink to='/login' className='nav-links' activeClassName='active' onClick={closeMenu}>
@@ -52,6 +45,9 @@ function Navbar({ isLoggedIn }) {
                                 </NavLink>
                             </li>
                         )}
+                        {/* <li className='nav-item'>
+                            <Link to='/signup' className='nav-links' onClick={closemenu}>SIGNUP</Link>
+                        </li> */}
                     </ul>
                 </div>
             </div>
