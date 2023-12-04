@@ -63,11 +63,71 @@
 
 /* Change Password Button */
 .change-password-button {
-    background-color: #4CAF50;
+    background-color: #0a740e;
     color: #fff;
     border: none;
     padding: 10px 20px;
     cursor: pointer;
     border-radius: 5px;
     margin-bottom: 10px;
+}
+
+
+.profile-container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    margin-top: 50px;
+}
+
+
+/* Left side styles */
+.left-section {
+    flex: 1;
+    margin-right: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+}
+
+/* Right side styles */
+.preferences-section {
+    flex: 1;
+    max-width: none;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.preferences-header {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.preferences-columns {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.preferences-column {
+    width: 48%;
+    box-sizing: border-box;
+    margin-right: 4%;
+}
+
+.preferences-column label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+/* Button to update preferences */
+.update-preferences-button {
+    background-color: #0a740e;
+    color: white;
+    border: none;
+    padding: 10px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 4px;
 }

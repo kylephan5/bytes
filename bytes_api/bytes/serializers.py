@@ -1,7 +1,23 @@
+from .models import Recipe, Inventory
 from .models import CustomUser
 from rest_framework import serializers
 from django.contrib.auth import authenticate
-from .models import Recipe, Inventory
+from .models import Recipe, Inventory, UserPreferences
+
+
+class UserPreferencesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserPreferences
+        fields = ['email', 'gluten_free', 'is_vegan', 'is_vegetarian',
+                  'is_lactose_intolerant', 'is_keto', 'nut_allergy', 'shellfish_allergy']
+
+    def create(self, validated_data):
+        email = validated_data.get('email', None)
+        if email is None:
+            raise serializers.ValidationError(
+                {"email": ["This field is required."]})
+
+        return UserPreferences.objects.create(**validated_data)
 
 
 class RecommendationSerializer(serializers.Serializer):

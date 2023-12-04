@@ -28,6 +28,11 @@ function Recommendations() {
     const fetchRecommendations = async () => {
         try {
             const response = await axios.get('/recommendation/');
+            const initialVotes = {};
+            response.data.forEach(recipe => {
+                initialVotes[recipe.recipe_id] = recipe.votes;
+            });
+            setVotes(initialVotes);
             setRecipes(response.data);
         } catch (error) {
             console.error('Error fetching recommendations:', error);
@@ -35,36 +40,14 @@ function Recommendations() {
     };
 
     const handleFilterChange = (filterName) => {
-        const updatedFilters = {
-            ...filters,
-            [filterName]: !filters[filterName],
-        };
-        setFilters(updatedFilters);
-        fetchRecipes({ ...updatedFilters, search: searchQuery });
-    };
-
-    useEffect(() => {
-        fetchRecipes({ ...filters, search: searchQuery });
-    }, [searchQuery, filters]);
-
-    const fetchRecipes = async (currentFilters) => {
-        try {
-            const response = await axios.get('recipes/', {
-                params: currentFilters,
-            });
-
-            const sortedRecipes = response.data.sort((a, b) => b.votes - a.votes);
-
-            setRecipes(sortedRecipes);
-
-            const votesData = {};
-            sortedRecipes.forEach((recipe) => {
-                votesData[recipe.recipe_id] = recipe.votes;
-            });
-            setVotes(votesData);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
+        setFilters((prevFilters) => {
+            const updatedFilters = {
+                ...prevFilters,
+                [filterName]: !prevFilters[filterName],
+            };
+            fetchRecommendations(updatedFilters);
+            return updatedFilters;
+        });
     };
 
     const handleVote = async (recipeId, value) => {
@@ -86,7 +69,6 @@ function Recommendations() {
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
     };
-
 
     const renderRecipeGrid = () => {
         return (
