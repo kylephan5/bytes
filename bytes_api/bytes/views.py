@@ -17,10 +17,6 @@ from django.core.exceptions import ObjectDoesNotExist
 # Create your views here.
 
 
-<< << << < Updated upstream
-== == == =
-
-
 class UserPreferencesView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -51,11 +47,10 @@ class UserPreferencesView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
->>>>>> > Stashed changes
-
-
 class RecommendationView(APIView):
     def get(self, request):
+        filters = request.GET
+
         sql_query = """
             SELECT
                 r.recipe_id,
@@ -73,11 +68,26 @@ class RecommendationView(APIView):
             FROM
                 bytes_recipe r
             JOIN
-                bytes_ingredients i ON r.recipe_id = i.recipe_id
+                bytes_recipe_ingredient i ON r.recipe_id = i.recipe_id
             JOIN
                 bytes_inventory inv ON inv.ingredient = i.ingredient
             WHERE
                 inv.email_id = %s
+        """
+
+        email = request.user.email
+        params = [email]
+
+        # Add filters to the SQL query and parameters
+        for filter_name in ['gluten_friendly', 'vegan_friendly', 'vegetarian_friendly', 'lactose_friendly', 'keto_friendly', 'nut_friendly', 'shellfish_friendly']:
+            filter_value = filters.get(filter_name, None)
+
+            if filter_value is not None and filter_value.lower() == 'true':
+                # Only add the filter condition if the checkbox is checked
+                sql_query += f" AND r.{filter_name} = %s"
+                params.append(1)
+
+        sql_query += """
             GROUP BY
                 r.recipe_id
             ORDER BY
@@ -85,9 +95,8 @@ class RecommendationView(APIView):
             LIMIT 10
         """
 
-        email = request.user.email
         with connection.cursor() as cursor:
-            cursor.execute(sql_query, (email,))
+            cursor.execute(sql_query, params)
             result = cursor.fetchall()
 
         serializer = RecommendationSerializer(result, many=True)
