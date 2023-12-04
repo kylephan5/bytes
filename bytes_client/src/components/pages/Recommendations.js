@@ -25,9 +25,9 @@ function Recommendations() {
         }
     }, [searchQuery, filters, location.pathname]);
 
-    const fetchRecommendations = async () => {
+    const fetchRecommendations = async (currentFilters) => {
         try {
-            const response = await axios.get('/recommendation/');
+            const response = await axios.get('/recommendation/', { params: currentFilters });
             const initialVotes = {};
             response.data.forEach(recipe => {
                 initialVotes[recipe.recipe_id] = recipe.votes;
@@ -39,16 +39,17 @@ function Recommendations() {
         }
     };
 
+
     const handleFilterChange = (filterName) => {
-        setFilters((prevFilters) => {
-            const updatedFilters = {
-                ...prevFilters,
-                [filterName]: !prevFilters[filterName],
-            };
-            fetchRecommendations(updatedFilters);
-            return updatedFilters;
-        });
+        const updatedFilters = {
+            ...filters,
+            [filterName]: !filters[filterName],
+        };
+        console.log('Updated Filters:', updatedFilters); // Log the updated filters
+        setFilters(updatedFilters);
+        fetchRecommendations({ ...updatedFilters, search: searchQuery });
     };
+
 
     const handleVote = async (recipeId, value) => {
         try {
@@ -74,7 +75,7 @@ function Recommendations() {
         return (
             <div className="recipe-cards">
                 {recipes
-                    .filter((recipe) => recipe.matching_percentage > 0)
+                    .filter((recipe) => recipe.matching_percentage)
                     .map((recipe) => (
                         <div key={recipe.recipe_id} className="recipe-card">
                             <h2>{recipe.recipe_name}</h2>
