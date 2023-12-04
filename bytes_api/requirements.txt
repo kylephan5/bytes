@@ -36,5 +36,3 @@ typing_extensions==4.8.0
 tzdata==2023.3
 urllib3==2.1.0
 virtualenv==20.24.5
-Pillow==10.1.0
-numpy==1.23.0
