@@ -109,3 +109,15 @@
     font-size: 14px;
     margin: 0 8px;
 }
+
+
+.refresh-button {
+    background-color: #0a740e;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

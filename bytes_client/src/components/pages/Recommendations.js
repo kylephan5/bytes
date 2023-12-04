@@ -45,7 +45,7 @@ function Recommendations() {
             ...filters,
             [filterName]: !filters[filterName],
         };
-        console.log('Updated Filters:', updatedFilters); // Log the updated filters
+        console.log('Updated Filters:', updatedFilters);
         setFilters(updatedFilters);
         fetchRecommendations({ ...updatedFilters, search: searchQuery });
     };

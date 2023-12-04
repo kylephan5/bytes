@@ -26,12 +26,36 @@ function Recipes() {
         };
         setFilters(updatedFilters);
         setCurrentPage(1);
-        fetchRecipes({ ...updatedFilters, search: searchQuery, page: 1 });
+        // fetchRecipes({ ...updatedFilters, search: searchQuery, page: 1 });
     };
+
 
     useEffect(() => {
         fetchRecipes({ ...filters, search: searchQuery, page: currentPage });
     }, [searchQuery, currentPage]);
+
+    const fetchUserPreferences = async () => {
+        try {
+            const response = await axios.get('user_preferences/');
+            const userPreferences = response.data;
+
+            const updatedFilters = {
+                gluten_friendly: userPreferences.gluten_free,
+                vegan_friendly: userPreferences.is_vegan,
+                vegetarian_friendly: userPreferences.is_vegetarian,
+                lactose_friendly: userPreferences.is_lactose_intolerant,
+                keto_friendly: userPreferences.is_keto,
+                nut_friendly: userPreferences.nut_allergy,
+                shellfish_friendly: userPreferences.shellfish_allergy,
+            };
+
+            setFilters(updatedFilters);
+            fetchRecipes({ ...updatedFilters, search: searchQuery, page: currentPage });
+        } catch (error) {
+            console.error('Error fetching user preferences:', error);
+        }
+    };
+
 
 
     const fetchRecipes = async (currentFilters) => {
@@ -167,6 +191,9 @@ function Recipes() {
                         </label>
                     ))}
                 </div>
+                <button onClick={fetchUserPreferences} className="refresh-button">
+                    Use User Preferences
+                </button>
             </div>
 
             {renderRecipeGrid()}
