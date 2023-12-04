@@ -1,8 +1,39 @@
 from .models import CustomUser
 from rest_framework import serializers
 from django.contrib.auth import authenticate
-
 from .models import Recipe, Inventory
+
+
+class RecommendationSerializer(serializers.Serializer):
+    recipe_id = serializers.IntegerField()
+    recipe_name = serializers.CharField()
+    recipe_url = serializers.CharField()
+    matching_percentage = serializers.FloatField()
+    gluten_friendly = serializers.BooleanField()
+    vegan_friendly = serializers.BooleanField()
+    vegetarian_friendly = serializers.BooleanField()
+    lactose_friendly = serializers.BooleanField()
+    keto_friendly = serializers.BooleanField()
+    nut_friendly = serializers.BooleanField()
+    shellfish_friendly = serializers.BooleanField()
+    votes = serializers.IntegerField()
+
+    def to_representation(self, instance):
+        # instance is a tuple
+        return {
+            'recipe_id': instance[0],
+            'recipe_name': instance[1],
+            'recipe_url': instance[2],
+            'matching_percentage': instance[3],
+            'gluten_friendly': bool(instance[4]),
+            'vegan_friendly': bool(instance[5]),
+            'vegetarian_friendly': bool(instance[6]),
+            'lactose_friendly': bool(instance[7]),
+            'keto_friendly': bool(instance[8]),
+            'nut_friendly': bool(instance[9]),
+            'shellfish_friendly': bool(instance[10]),
+            'votes': instance[11],
+        }
 
 
 class InventorySerializer(serializers.ModelSerializer):
