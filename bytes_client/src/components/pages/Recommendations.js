@@ -45,7 +45,7 @@ function Recommendations() {
             ...filters,
             [filterName]: !filters[filterName],
         };
-        console.log('Updated Filters:', updatedFilters); // Log the updated filters
+        console.log('Updated Filters:', updatedFilters);
         setFilters(updatedFilters);
         fetchRecommendations({ ...updatedFilters, search: searchQuery });
     };
@@ -75,7 +75,7 @@ function Recommendations() {
         return (
             <div className="recipe-cards">
                 {recipes
-                    .filter((recipe) => recipe.matching_percentage)
+                    .filter((recipe) => recipe.matching_percentage !== undefined)
                     .map((recipe) => (
                         <div key={recipe.recipe_id} className="recipe-card">
                             <h2>{recipe.recipe_name}</h2>
