@@ -3,7 +3,6 @@ from PIL import Image
 import numpy as np
 import hashlib
 import torch
-import transforms as T
 import csv
 import torchvision
 from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
