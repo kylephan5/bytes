@@ -90,6 +90,7 @@ function Inventory() {
   const manualInput = async () => {
     // do not allow duplicate entry
     if (typedItems.includes(searchTerm)) {
+      alert('Item already exists in inventory')
       return;
     }
 
