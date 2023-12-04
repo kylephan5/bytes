@@ -56,7 +56,7 @@ class RecommendationView(APIView):
                 r.recipe_id,
                 r.recipe_name,
                 r.recipe_url,
-                (COUNT(i.ingredient) / (SELECT COUNT(*) FROM bytes_ingredients WHERE recipe_id = r.recipe_id)) * 100 AS matching_percentage,
+                (COUNT(i.ingredient) / (SELECT COUNT(*) FROM first_100k_recipe_ingredients WHERE recipe_id = r.recipe_id)) * 100 AS matching_percentage,
                 r.gluten_friendly,
                 r.vegan_friendly,
                 r.vegetarian_friendly,
@@ -66,11 +66,11 @@ class RecommendationView(APIView):
                 r.shellfish_friendly,
                 r.votes
             FROM
-                bytes_recipe r
+                first_100k_bytes_recipe r
             JOIN
-                bytes_recipe_ingredient i ON r.recipe_id = i.recipe_id
+                first_100k_recipe_ingredients i ON r.recipe_id = i.recipe_id
             JOIN
-                bytes_inventory inv ON inv.ingredient = i.ingredient
+                bytes_inventory inv ON LOWER(inv.ingredient) = LOWER(i.ingredient)
             WHERE
                 inv.email_id = %s
         """

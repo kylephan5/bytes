@@ -75,7 +75,7 @@ function Recommendations() {
         return (
             <div className="recipe-cards">
                 {recipes
-                    .filter((recipe) => recipe.matching_percentage)
+                    .filter((recipe) => recipe.matching_percentage !== undefined)
                     .map((recipe) => (
                         <div key={recipe.recipe_id} className="recipe-card">
                             <h2>{recipe.recipe_name}</h2>
