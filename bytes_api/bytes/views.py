@@ -12,8 +12,86 @@ from .process_images import process_images
 from django.db import connection, IntegrityError
 from django.db.models import Count
 from rest_framework.parsers import MultiPartParser, FormParser
+from django.core.exceptions import ObjectDoesNotExist
 
 # Create your views here.
+
+
+<< << << < Updated upstream
+== == == =
+
+
+class UserPreferencesView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        email = request.user.email
+        try:
+            user_preferences = UserPreferences.objects.get(email_id=email)
+        except UserPreferences.DoesNotExist:
+            user_preferences = UserPreferences.objects.create(email_id=email)
+
+        serializer = UserPreferencesSerializer(user_preferences)
+        return Response(serializer.data)
+
+    def put(self, request):
+        email = request.user.email
+        try:
+            user_preferences = UserPreferences.objects.get(email_id=email)
+        except UserPreferences.DoesNotExist:
+            user_preferences = UserPreferences.objects.create(email_id=email)
+
+        serializer = UserPreferencesSerializer(
+            user_preferences, data=request.data, partial=True
+        )
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+>>>>>> > Stashed changes
+
+
+class RecommendationView(APIView):
+    def get(self, request):
+        sql_query = """
+            SELECT
+                r.recipe_id,
+                r.recipe_name,
+                r.recipe_url,
+                (COUNT(i.ingredient) / (SELECT COUNT(*) FROM bytes_ingredients WHERE recipe_id = r.recipe_id)) * 100 AS matching_percentage,
+                r.gluten_friendly,
+                r.vegan_friendly,
+                r.vegetarian_friendly,
+                r.lactose_friendly,
+                r.keto_friendly,
+                r.nut_friendly,
+                r.shellfish_friendly,
+                r.votes
+            FROM
+                bytes_recipe r
+            JOIN
+                bytes_ingredients i ON r.recipe_id = i.recipe_id
+            JOIN
+                bytes_inventory inv ON inv.ingredient = i.ingredient
+            WHERE
+                inv.email_id = %s
+            GROUP BY
+                r.recipe_id
+            ORDER BY
+                matching_percentage DESC
+            LIMIT 10
+        """
+
+        email = request.user.email
+        with connection.cursor() as cursor:
+            cursor.execute(sql_query, (email,))
+            result = cursor.fetchall()
+
+        serializer = RecommendationSerializer(result, many=True)
+        return Response(serializer.data)
 
 
 class ComputerVisionView(APIView):
