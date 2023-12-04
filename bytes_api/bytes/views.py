@@ -26,7 +26,9 @@ class ComputerVisionView(APIView):
             uploaded_images = serializer.validated_data['images']
 
             results = process_images(uploaded_images)
-
+            # no results found
+            if not results:
+                return Response({'message': 'No items detected!'}, status=status.HTTP_400_BAD_REQUEST)
             try:
                 for item in results:
                     user_inventory_item, created = Inventory.objects.update_or_create(

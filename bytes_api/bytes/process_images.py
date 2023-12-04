@@ -2,9 +2,37 @@ import os
 from PIL import Image
 import numpy as np
 import hashlib
+import torch
+import transforms as T
+import csv
+import torchvision
+from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
+
+
+def get_classes():
+    classes = []
+    with open('./oidv7-class-descriptions-boxable-modified.csv') as classes_file:
+        reader_obj = csv.reader(classes_file)
+        for index, line in enumerate(reader_obj):
+            if index == 0:
+                continue
+
+            classes.append(line[1])
+
+    return classes
+
+
+def get_model(num_classes):
+  weights = torchvision.models.detection.FasterRCNN_ResNet50_FPN_V2_Weights.DEFAULT
+  model = torchvision.models.detection.fasterrcnn_resnet50_fpn_v2(weights=weights)
+
+  in_features = model.roi_heads.box_predictor.cls_score.in_features
+
+  model.roi_heads.box_predictor = FastRCNNPredictor(in_features, num_classes)
+  return model
+
 
 # Directory to store uploaded images
-UPLOAD_DIR = 'uploaded_images'
 
 
 def calculate_hash(file_contents):
@@ -47,12 +75,10 @@ def process_images(image_files):
                 f.write(file_contents)
 
             image = Image.open(image_path)
-            image = image.resize((299, 299))
-            image = np.array(image) / 255.0  # Normalize?
 
             # TODO: image processing logic
-            analysis_result = perform_analysis(image)
-            results.append(f'{analysis_result}: {index}')
+            analysis_result = perform_analysis(image) # analysis_result is a list of all things
+            results.extend(analysis_result)
 
     except Exception as e:
         results.append(f"Error processing images: {str(e)}")
@@ -63,9 +89,30 @@ def process_images(image_files):
             if os.path.exists(image_path):
                 os.remove(image_path)
 
-    return results
+    return list(set(results))
 
 
 def perform_analysis(image):
     # TODO: KYLE CV
-    return "Placeholder Analysis Result"
+    np_sample_image = np.array(image.convert("RGB"))
+
+    transformed_img = torchvision.transforms.transforms.ToTensor()(
+        torchvision.transforms.ToPILImage()(np_sample_image))
+
+    pred = model([transformed_img])
+    pred_labels = [idx_to_class[i - 1] for i in pred[0]['labels'].numpy()]
+    pred_score = list(pred[0]['scores'].detach().numpy())
+
+    pred_t = [pred_score.index(x) for x in pred_score if x > confidence]
+
+    return [pred_labels[ind] for ind in pred_t]
+
+
+confidence = 0.7
+UPLOAD_DIR = 'uploaded_images'
+path = './model.pth'
+classes = get_classes()
+idx_to_class = {i: j for i, j in enumerate(classes)}
+model = get_model(len(classes)+2)
+model.load_state_dict(torch.load(path, map_location=torch.device('cpu')))
+model.eval()
