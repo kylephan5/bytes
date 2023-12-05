@@ -13,13 +13,13 @@ function Login({ setIsLoggedIn }) {
   const [loginStatus, setLoginStatus] = useState(null); // new state variable for login status
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   const storedToken = localStorage.getItem('authToken');
-  //   if (storedToken) {
-  //     setIsLoggedIn(true);
-  //     navigate('/profile');
-  //   }
-  // }, [setIsLoggedIn, navigate]);
+  useEffect(() => {
+    const storedStatus = localStorage.getItem('isLoggedIn');
+    if (storedStatus === 'true') {
+      setIsLoggedIn(true);
+      navigate('/profile');
+    }
+  }, [setIsLoggedIn, navigate]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -46,8 +46,9 @@ function Login({ setIsLoggedIn }) {
       )
       .then(function (response) {
         console.log('signed in');
-        // const authToken = response.data.authToken;
-        localStorage.setItem('isLoggedIn', 'true')
+        const authToken = response.data.authToken;
+        localStorage.setItem('authToken', authToken);
+        localStorage.setItem('isLoggedIn', 'true');
         setIsLoggedIn(true);
         setLoginStatus('success');
         navigate('/profile');
