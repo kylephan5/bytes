@@ -66,7 +66,6 @@ function Inventory() {
 
         // Fetch and update inventory after processing images
         await fetchExistingItems();
-
         console.log('Analysis Results:', analysisResults);
       } else {
         console.error('Error processing images');
@@ -74,6 +73,7 @@ function Inventory() {
 
     } catch (error) {
       console.error('Error processing images:', error);
+      alert('No items detected')
     }
   };
 
