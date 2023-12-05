@@ -101,6 +101,7 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    margin-right: 10px;
 }
 
 .add-input:hover {
@@ -122,4 +123,15 @@
 
 .items li {
     margin-bottom: 5px;
+}
+
+.recipe_button{
+    margin-top: 10px;
+    padding: 8px 16px;
+    font-size: 14px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
 }

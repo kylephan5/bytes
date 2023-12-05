@@ -37,25 +37,53 @@ function Profile(props) {
                 console.error('Error updating preferences:', error);
             });
     };
-    useEffect(() => {
-        // Fetch user preferences from the backend
-        axios.get('user_preferences/')
-            .then(function (response) {
-                const preferences = response.data;
-                setEmail(preferences.email);
-                setGlutenFree(preferences.gluten_free);
-                setIsVegan(preferences.is_vegan);
-                setIsVegetarian(preferences.is_vegetarian);
-                setIsLactoseIntolerant(preferences.is_lactose_intolerant);
-                setIsKeto(preferences.is_keto);
-                setNutAllergy(preferences.nut_allergy);
-                setShellfishAllergy(preferences.shellfish_allergy);
-            })
-            .catch(function (error) {
-                console.error('Error fetching user preferences:', error);
-            });
-    }, [email]);
+    
+    // useEffect(() => {
+    //     // Fetch user preferences from the backend
+    //     axios.get('user_preferences/')
+    //         .then(function (response) {
+    //             const preferences = response.data;
+    //             setEmail(preferences.email);
+    //             setGlutenFree(preferences.gluten_free);
+    //             setIsVegan(preferences.is_vegan);
+    //             setIsVegetarian(preferences.is_vegetarian);
+    //             setIsLactoseIntolerant(preferences.is_lactose_intolerant);
+    //             setIsKeto(preferences.is_keto);
+    //             setNutAllergy(preferences.nut_allergy);
+    //             setShellfishAllergy(preferences.shellfish_allergy);
+    //         })
+    //         .catch(function (error) {
+    //             console.error('Error fetching user preferences:', error);
+    //         });
+    // }, [email]);
 
+    // checking!! 
+    useEffect(() => {
+        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+      
+        if (isLoggedIn) {
+          // User is logged in, proceed with fetching preferences
+          axios
+            .get('user_preferences/')
+            .then((response) => {
+              const preferences = response.data;
+              setEmail(preferences.email);
+              setGlutenFree(preferences.gluten_free);
+              setIsVegan(preferences.is_vegan);
+              setIsVegetarian(preferences.is_vegetarian);
+              setIsLactoseIntolerant(preferences.is_lactose_intolerant);
+              setIsKeto(preferences.is_keto);
+              setNutAllergy(preferences.nut_allergy);
+              setShellfishAllergy(preferences.shellfish_allergy);
+            })
+            .catch((error) => {
+              console.error('Error fetching user preferences:', error);
+            });
+        } else {
+            localStorage.setItem('isLoggedIn', 'false');
+            navigate('/'); // Uncomment this line if you want to navigate
+        }
+      }, []);
 
     useEffect(() => {
         if (!props.isLoggedIn) {
@@ -67,6 +95,7 @@ function Profile(props) {
     const userLogout = () => {
         axios.post('logout/')
             .then(function (response) {
+                localStorage.removeItem('isLoggedIn');
                 navigate("/");
                 window.location.reload();
             })
@@ -74,7 +103,6 @@ function Profile(props) {
                 console.error(error);
             });
     }
-
 
     const changePassword = () => {
         axios.put('change_password/', {
@@ -173,7 +201,6 @@ function Profile(props) {
                     <button type="button" onClick={changePassword} className="change-password-button">
                         Change Password
                     </button>
-
                     {passwordChangeMessage && (
                         <p className={`password-message ${passwordChangeMessage.includes('success') ? 'password-success' : 'password-error'}`}>
                             {passwordChangeMessage}
