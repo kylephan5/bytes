@@ -28,11 +28,13 @@ function Navbar({ isLoggedIn }) {
                                 HOME
                             </NavLink>
                         </li>
-                        <li className='nav-item'>
-                            <NavLink to='/inventory' className='nav-links' activeclassname='active' onClick={closeMenu}>
-                                INVENTORY
-                            </NavLink>
-                        </li>
+                        {isLoggedIn && (
+                            <li className='nav-item'>
+                                <NavLink to='/inventory' className='nav-links' activeclassname='active' onClick={closeMenu}>
+                                    INVENTORY
+                                </NavLink>
+                            </li>
+                        )}
                         <li className='nav-item'>
                             <NavLink to='/recipes' className='nav-links' activeclassname='active' onClick={closeMenu}>
                                 RECIPES
