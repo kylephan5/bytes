@@ -73,27 +73,15 @@ class RecommendationView(APIView):
                 bytes_inventory inv ON LOWER(inv.ingredient) = LOWER(i.ingredient)
             WHERE
                 inv.email_id = %s
-        """
-
-        email = request.user.email
-        params = [email]
-
-        # Add filters to the SQL query and parameters
-        for filter_name in ['gluten_friendly', 'vegan_friendly', 'vegetarian_friendly', 'lactose_friendly', 'keto_friendly', 'nut_friendly', 'shellfish_friendly']:
-            filter_value = filters.get(filter_name, None)
-
-            if filter_value is not None and filter_value.lower() == 'true':
-                # Only add the filter condition if the checkbox is checked
-                sql_query += f" AND r.{filter_name} = %s"
-                params.append(1)
-
-        sql_query += """
             GROUP BY
                 r.recipe_id
             ORDER BY
                 matching_percentage DESC
             LIMIT 10
         """
+
+        email = request.user.email
+        params = [email]
 
         with connection.cursor() as cursor:
             cursor.execute(sql_query, params)
