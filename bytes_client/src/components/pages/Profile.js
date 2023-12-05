@@ -37,7 +37,7 @@ function Profile(props) {
                 console.error('Error updating preferences:', error);
             });
     };
-    
+  
     useEffect(() => {
         // Fetch user preferences from the backend
         axios.get('user_preferences/')

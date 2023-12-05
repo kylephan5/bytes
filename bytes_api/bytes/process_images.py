@@ -22,13 +22,14 @@ def get_classes():
 
 
 def get_model(num_classes):
-  weights = torchvision.models.detection.FasterRCNN_ResNet50_FPN_V2_Weights.DEFAULT
-  model = torchvision.models.detection.fasterrcnn_resnet50_fpn_v2(weights=weights)
+    weights = torchvision.models.detection.FasterRCNN_ResNet50_FPN_V2_Weights.DEFAULT
+    model = torchvision.models.detection.fasterrcnn_resnet50_fpn_v2(
+        weights=weights)
 
-  in_features = model.roi_heads.box_predictor.cls_score.in_features
+    in_features = model.roi_heads.box_predictor.cls_score.in_features
 
-  model.roi_heads.box_predictor = FastRCNNPredictor(in_features, num_classes)
-  return model
+    model.roi_heads.box_predictor = FastRCNNPredictor(in_features, num_classes)
+    return model
 
 
 # Directory to store uploaded images
@@ -76,7 +77,8 @@ def process_images(image_files):
             image = Image.open(image_path)
 
             # TODO: image processing logic
-            analysis_result = perform_analysis(image) # analysis_result is a list of all things
+            # analysis_result is a list of all things
+            analysis_result = perform_analysis(image)
             results.extend(analysis_result)
 
     except Exception as e:
@@ -104,7 +106,7 @@ def perform_analysis(image):
 
     pred_t = [pred_score.index(x) for x in pred_score if x > confidence]
 
-    return [pred_labels[ind] for ind in pred_t]
+    return list(map(lambda x: x.lower(), [pred_labels[ind] for ind in pred_t]))
 
 
 confidence = 0.7

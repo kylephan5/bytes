@@ -56,6 +56,29 @@ function Recipes() {
         }
     };
 
+    useEffect(() => {
+        const fetchRecipesData = async () => {
+            try {
+                const response = await axios.get('recipes/', {
+                    params: { ...filters, search: searchQuery, page: currentPage },
+                });
+
+                const sortedRecipes = response.data.sort((a, b) => b.votes - a.votes);
+
+                setRecipes(sortedRecipes);
+
+                const votesData = {};
+                sortedRecipes.forEach((recipe) => {
+                    votesData[recipe.recipe_id] = recipe.votes;
+                });
+                setVotes(votesData);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchRecipesData();
+    }, [filters, searchQuery, currentPage]);
 
 
     const fetchRecipes = async (currentFilters) => {

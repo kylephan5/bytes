@@ -175,8 +175,8 @@ function Inventory() {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <button className='add-input' onClick={manualInput}>Add</button>
-        <Link to='/recipes'>
-        <button className="recipe_button">Find Recipes</button>
+        <Link to='/recommendations'>
+          <button className="recipe_button">Find Recipes</button>
         </Link>
       </div>
     </div>
