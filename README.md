@@ -10,7 +10,7 @@ Our tech stack:
 - Django REST Framework -> backend
 - Nginx -> server
 - MySQL, hosted/managed on AWS RDS -> database
-- Deployed here
+- Deployed [here](https://bytes.ndlug.org)
 
 
 
