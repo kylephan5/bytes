@@ -37,7 +37,7 @@ function Profile(props) {
                 console.error('Error updating preferences:', error);
             });
     };
-  
+
     useEffect(() => {
         // Fetch user preferences from the backend
         axios.get('user_preferences/')
@@ -57,26 +57,26 @@ function Profile(props) {
             });
     }, [email]);
 
-        useEffect(() => {
-            if (!props.isLoggedIn) {
-                const storedPath = localStorage.getItem('currentPath') || "/";
-                navigate(storedPath);
-                window.location.reload();
-            }
-        }, [props.isLoggedIn, navigate]);   
-
-        const userLogout = () => {
-            axios.post('logout/')
-                .then(function (response) {
-                    localStorage.setItem('isLoggedIn', 'false'); // Set login status to false
-                    // props.setIsLoggedIn(false);
-                    navigate("/");
-                    window.location.reload();
-                })
-                .catch(function (error) {
-                    console.error(error);
-                });
+    useEffect(() => {
+        if (!props.isLoggedIn) {
+            const storedPath = localStorage.getItem('currentPath') || "/";
+            navigate(storedPath);
+            window.location.reload();
         }
+    }, [props.isLoggedIn, navigate]);
+
+    const userLogout = () => {
+        axios.post('logout/')
+            .then(function (response) {
+                localStorage.setItem('isLoggedIn', 'false'); // Set login status to false
+                // props.setIsLoggedIn(false);
+                navigate("/");
+                window.location.reload();
+            })
+            .catch(function (error) {
+                console.error(error);
+            });
+    }
 
     const changePassword = () => {
         axios.put('change_password/', {

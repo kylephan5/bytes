@@ -2,24 +2,16 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import './Login.css';
 import axios from 'axios';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function Login({ setIsLoggedIn }) {
+function Signup({ setIsLoggedIn }) {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
   const [loginStatus, setLoginStatus] = useState(null); // new state variable for login status
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const storedStatus = localStorage.getItem('isLoggedIn');
-    if (storedStatus === 'true') {
-      setIsLoggedIn(true);
-      navigate('/profile');
-    }
-  }, [setIsLoggedIn, navigate]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -46,9 +38,6 @@ function Login({ setIsLoggedIn }) {
       )
       .then(function (response) {
         console.log('signed in');
-        const authToken = response.data.authToken;
-        localStorage.setItem('authToken', authToken);
-        localStorage.setItem('isLoggedIn', 'true');
         setIsLoggedIn(true);
         setLoginStatus('success');
         navigate('/profile');
@@ -115,4 +104,4 @@ function Login({ setIsLoggedIn }) {
   );
 }
 
-export default Login;
+export default Signup;
